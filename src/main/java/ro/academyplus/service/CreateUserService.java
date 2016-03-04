@@ -7,22 +7,19 @@ import ro.academyplus.model.User;
 import ro.academyplus.repository.UserRepository;
 
 /**
- * Created by agheboianu on 03.03.2016.
+ * Created by MM on 2016-03-03.
  */
-
 @Service
-public class AwesomeService {
+public class CreateUserService {
 
     @Autowired
     UserRepository userRepository;
 
-    public String formatName(String name) {
-        return "Mr." + name;
+    public User registerUser(UserDTO userDTO) {
+        User user = new User();
+        user.setEmail(userDTO.getEmail());
+        user.setName(userDTO.getName());
+        user.setPassword(userDTO.getPassword());
+        return userRepository.save(user);
     }
-
-    public String formatAddress(String address) {
-        return "Address: " + address;
-    }
-
-
 }

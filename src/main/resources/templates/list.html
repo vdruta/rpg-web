@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-    <title>Example page</title>
+    <title>List test</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
+<body>
 
-<body background="https://www.planwallpaper.com/static/images/9-credit-1.jpg">
+<table>
+    <tr th:each="p: ${names}"><td th:text="${p}"></td></tr>
+</table>
 
-<h1 th:text="${name + ' is awesome!'}"> </h1>
 
-
+<table>
+    <tr th:each="p2: ${names2}"><td th:text="${p2}"></td></tr>
+</table>
 
 </body>
-
 </html>

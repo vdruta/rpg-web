@@ -1,0 +1,103 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Login, Sign up Header</title>
+
+    <link rel="stylesheet" href="demo.css" />
+    <link rel="stylesheet" href="header-login-signup.css" />
+    <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css' />
+
+</head>
+
+<body>
+
+<header class="header-login-signup">
+
+    <div class="header-limiter">
+
+        <h1><a href="#">RPG<span>game</span></a></h1>
+
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Blog</a>
+            <a href="#">Pricing</a>
+            <a href="#"  class="selected">Sign Up</a>
+        </nav>
+
+        <ul>
+            <li><a href="#">Login</a></li>
+            <li><a href="#">Sign up</a></li>
+        </ul>
+
+    </div>
+
+</header>
+
+<!-- The content of your page would go here. -->
+
+
+<div class="menu">
+
+    <img src="marius-adauga-poza.png" alt="arrow" height="120" />
+
+    <h1>Sign Up</h1>
+    <!--
+        <ul>
+            <li><a href="index.html">Basic</a></li>
+            <li><a href="header-basic-light.html">Basic Light</a></li>
+            <li><a href="header-fixed.html">Fixed</a></li>
+            <li><a href="header-login-signup.html" class="active">Login/Sign up</a></li>
+            <li><a href="header-search.html">Search</a></li>
+            <li><a href="header-second-bar.html">Second Bar</a></li>
+            <li><a href="header-user-dropdown.html">User Dropdown</a></li>
+        </ul>
+    -->
+
+    <h1 th:text="${text}"></h1>
+    <form action="#" th:action="@{/create}" th:object="${user}" method="post" allign="middle">
+
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>Name</label>
+                <input class="form-control" th:field="*{name}"/>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input class="form-control" th:field="*{email}"/>
+                <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</label>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input class="form-control" th:field="*{password}" type="password"/>
+            </div>
+            <div class="form-group">
+                <label>Confirm password</label>
+                <input class="form-control" th:field="*{confirmPassword}" type="password"/>
+            </div>
+            <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
+        </div>
+
+    </form>
+
+    </div>
+
+
+
+
+
+
+    </body>
+
+    </html>

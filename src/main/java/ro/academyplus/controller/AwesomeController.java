@@ -3,11 +3,13 @@ package ro.academyplus.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import ro.academyplus.dto.UserDTO;
+import ro.academyplus.model.User;
 import ro.academyplus.service.AwesomeService;
+
+import javax.validation.Valid;
 
 /**
  * Created by agheboianu on 01.03.2016.
@@ -33,12 +35,15 @@ public class AwesomeController {
         return "index";
     }
 
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/list")
     public String printParams(Model model) {
-        String[] param = {"Alex", "George", "Marius"};
-        model.addAttribute("names", param);
-        return "index";
+        String[] names = {"Alex", "George", "Marius"};
+        model.addAttribute("names", names);
+        String[] names2 = {"Alex", "George", "Marius"};
+        model.addAttribute("names2", names2);
+        return "list";
     }
+
 
 
 

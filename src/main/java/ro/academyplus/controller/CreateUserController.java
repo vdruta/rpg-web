@@ -22,22 +22,25 @@ class CreateUserController {
     @Autowired
     CreateUserService createUserService;
 
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String createUserForm(Model model) {
+        UserDTO user = new UserDTO();
+        user.setName("");
+        user.setEmail("");
+        model.addAttribute("user", user);
+        model.addAttribute("pagetitle", "Sign Up");
+        return "create";
+    }
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String sendUser(@ModelAttribute(value = "user") @Valid UserDTO user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "create";
         }
         User userModel = createUserService.registerUser(user);
-        return "redirect:html?name=" + userModel.getId();
+        return "redirect:members?name="+userModel.getName()+"&email="+userModel.getEmail()+"&password="+userModel.getPassword()+"&id="+userModel.getId();
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createUserForm(Model model) {
-        UserDTO user = new UserDTO();
-        user.setName("First, Last Name");
-        user.setEmail("your_email@domain.tld");
-        model.addAttribute("user", user);
-        model.addAttribute("titletext", "Sign Up");
-        return "create";
-    }
+
+
 }

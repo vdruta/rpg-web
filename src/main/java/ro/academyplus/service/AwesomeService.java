@@ -13,8 +13,6 @@ import ro.academyplus.repository.UserRepository;
 @Service
 public class AwesomeService {
 
-    @Autowired
-    UserRepository userRepository;
 
     public String formatName(String name) {
         return "Mr." + name;

@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import ro.academyplus.dto.UserDTO;
 import ro.academyplus.model.User;
 import ro.academyplus.service.CreateUserService;
-
 import javax.validation.Valid;
 
 /**

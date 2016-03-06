@@ -20,6 +20,7 @@ public class CreateUserService {
         user.setEmail(userDTO.getEmail());
         user.setName(userDTO.getName());
         user.setPassword(userDTO.getPassword());
-        return userRepository.save(user);
+        userRepository.save(user);
+        return user;
     }
 }

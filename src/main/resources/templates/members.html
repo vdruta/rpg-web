@@ -31,10 +31,21 @@
     <h1>Members Area</h1>
     <p th:text="${'Welcome '+name+'!'}"> </p>
     <div align="left">
+        <p>Id: </p>
         <p th:text="${id}">Id: </p>
+        <p>Name: </p>
         <p th:text="${name}">Name: </p>
+        <p>Email: </p>
         <p th:text="${email}">Email: </p>
+        <p>Password: </p>
         <p th:text="${password}">Password</p>
+    </div>
+    <div align="left">
+        <p>From Database</p>
+        <p th:text="${user.id}"></p>
+        <p th:text="${user.name}"></p>
+        <p th:text="${user.email}"></p>
+        <p th:text="${user.password}"></p>
     </div>
 </div>
 </body>

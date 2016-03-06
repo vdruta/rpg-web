@@ -1,7 +1,6 @@
 package ro.academyplus.dto;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -10,12 +9,13 @@ import javax.validation.constraints.Size;
 public class UserDTO {
 
     @NotNull(message = "Field is null")
-    @Size(min = 1, max = 30, message = "Size not ok.")
+    @Size(min = 5, max = 60, message = "Email size not ok. Min 5 - max 60 characters")
     private String email;
     @NotNull
     private String password;
     @NotNull
     private String confirmPassword;
+    @NotNull
     private String name;
 
     public String getEmail() {

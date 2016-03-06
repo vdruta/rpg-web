@@ -18,8 +18,9 @@ public class Hero extends Character implements ManageCharacter {
     private int inventoryCount;
     private int inventorySize = 3;
 
-    public Hero(String name, int level) {
-        super(name, level);
+    public Hero(String name) {
+        super(name);
+        this.level = 1;
     }
 
     @Override

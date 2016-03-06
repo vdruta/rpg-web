@@ -10,7 +10,8 @@ import java.io.ObjectOutputStream;
  */
 public class Villain extends Character {
     public Villain(String name, int level) {
-        super(name, level);
+        super(name);
+        this.level = level;
     }
 
     @Override

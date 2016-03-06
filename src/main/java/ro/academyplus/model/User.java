@@ -1,6 +1,9 @@
 package ro.academyplus.model;
 
+import ro.academyplus.model.characters.Hero;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 
 /**
  * Created by agheboianu on 04.03.2016.
@@ -15,6 +18,7 @@ public class User {
     private String name;
     private String email;
     private String password;
+    private ArrayList<Hero> heroes;
 
     public String getPassword() {
         return password;
@@ -46,6 +50,14 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public ArrayList<Hero> getHeroes() {
+        return heroes;
+    }
+
+    public void setHeroes(ArrayList<Hero> heroes) {
+        this.heroes = heroes;
     }
 
 }

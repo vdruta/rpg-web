@@ -14,9 +14,9 @@ public abstract class Character implements Serializable {
     private int id;
     private static int idCount = 0;
 
-    public Character(String name, int level){
+    public Character(String name){
         this.name = name;
-        this.level = level;
+        this.level = 1;
         this.id = idCount;
         idCount++;
     }

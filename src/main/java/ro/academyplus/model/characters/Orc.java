@@ -4,7 +4,7 @@ package ro.academyplus.model.characters;
  */
 public class Orc extends Hero {
     public Orc(String name, int level){
-        super(name, level);
+        super(name);
         health = 1700 + level * 20;
         damage = 20 + level * 5;
     }

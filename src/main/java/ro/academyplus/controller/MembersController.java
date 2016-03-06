@@ -33,6 +33,7 @@ public class MembersController {
         User user = userRepository.getOne(Long.parseLong(id));
         model.addAttribute("user", user);
         return "members";
+
     }
 /*
     @RequestMapping(value = "/members", method = RequestMethod.POST)

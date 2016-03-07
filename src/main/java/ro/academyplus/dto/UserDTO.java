@@ -1,15 +1,20 @@
 package ro.academyplus.dto;
 
+import ro.academyplus.dto.validators.Email;
+import ro.academyplus.dto.validators.MatchFields;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
  * Created by agheboianu on 04.03.2016.
  */
+@MatchFields(first = "password", second = "confirmPassword", message = "Passwords don't match")
 public class UserDTO {
 
     @NotNull(message = "Field is null")
     @Size(min = 5, max = 60, message = "Email size not ok. Min 5 - max 60 characters")
+    @Email
     private String email;
     @NotNull
     private String password;

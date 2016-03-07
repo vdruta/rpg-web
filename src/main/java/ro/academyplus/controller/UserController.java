@@ -1,5 +1,4 @@
 package ro.academyplus.controller;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,17 +8,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import ro.academyplus.dto.UserDTO;
 import ro.academyplus.model.User;
-import ro.academyplus.service.CreateUserService;
+import ro.academyplus.service.UserService;
 import javax.validation.Valid;
 
 /**
  * Created by MM on 2016-03-04.
  */
 @Controller
-class CreateUserController {
+class UserController {
 
     @Autowired
-    CreateUserService createUserService;
+    UserService createUserService;
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createUserForm(Model model) {
@@ -34,10 +33,11 @@ class CreateUserController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String sendUser(@ModelAttribute(value = "user") @Valid UserDTO user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
+            System.out.println("Create error");
             return "create";
         }
         User userModel = createUserService.registerUser(user);
-        return "redirect:members?name="+userModel.getName()+"&email="+userModel.getEmail()+"&password="+userModel.getPassword()+"&id="+userModel.getId();
+        return "redirect:members?id="+userModel.getId();
     }
 
 

@@ -21,15 +21,8 @@ public class MembersController {
 
     @RequestMapping(value = "/members", method = RequestMethod.GET)
     public String controlMembers(
-            @RequestParam(value = "name", required = false, defaultValue = "Alex") String name,
-            @RequestParam(value = "id", required = false, defaultValue = "001") String id,
-            @RequestParam(value = "email", required = false, defaultValue = "email@email.com") String email,
-            @RequestParam(value = "password", required = false, defaultValue = "password") String password,
+            @RequestParam(value = "id", required = false, defaultValue = "") String id,
             Model model) {
-        model.addAttribute("name", name);
-        model.addAttribute("id", id);
-        model.addAttribute("email", email);
-        model.addAttribute("password", password);
         User user = userRepository.getOne(Long.parseLong(id));
         model.addAttribute("user", user);
         return "members";

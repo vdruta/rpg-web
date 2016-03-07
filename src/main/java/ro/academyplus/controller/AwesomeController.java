@@ -43,9 +43,4 @@ public class AwesomeController {
         model.addAttribute("names2", names2);
         return "list";
     }
-
-
-
-
-
 }

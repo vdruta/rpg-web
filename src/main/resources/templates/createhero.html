@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Login, Sign up Header</title>
+    <title>Create hero</title>
 
     <link rel="stylesheet" href="demo.css" />
     <link rel="stylesheet" href="header-login-signup.css" />
@@ -20,18 +20,18 @@
         <nav>
             <a href="/">Home</a>
             <a href="#">Blog</a>
-            <a href="#">Pricing</a>
+            <a href="/createhero">Create hero</a>
             <a href="/create"  class="selected">Sign Up</a>
         </nav>
         <ul>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/create">Sign up</a></li>
+
+            <li><a href="/create">Log out</a></li>
         </ul>
     </div>
 </header>
 <!-- The content of your page would go here. -->
 <div class="menu">
-    <img src="marius-adauga-poza.png" alt="arrow" height="120" />
+
     <!--
         <ul>
             <li><a href="index.html">Basic</a></li>
@@ -44,28 +44,27 @@
         </ul>
     -->
 
-    <h1 th:text="${pagetitle}"></h1>
-    <form action="#" th:action="@{/create}" th:object="${user}" method="post" allign="middle">
+    <h1>Create Hero</h1>
+    <form action="#" th:action="@{/createhero}" th:object="${herodto}" method="post" allign="middle">
         <div class="col-lg-4">
             <div class="form-group">
-                <label>Name</label>
+                <label>Hero Name</label>
                 <input class="form-control" th:field="*{name}"/>
             </div>
             <div class="form-group">
-                <label>Email</label>
-                <input class="form-control" th:field="*{email}"/>
-                <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</label>
-            </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input class="form-control" th:field="*{password}" type="password"/>
-            </div>
-            <div th:if="${#fields.hasErrors('global')}">
-                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
-            </div>
-            <div class="form-group">
-                <label>Confirm password</label>
-                <input class="form-control" th:field="*{confirmPassword}" type="password"/>
+                <label>Hero Type</label>
+                <select th:field="*{type}">
+                    <option th:value="Elf">Elf</option><!--
+                    <option th:each="type : ${heroType}"
+                            th:value="${type}"
+                            th:text="#{${'seedstarter.type.' + type}}">Knight</option>
+                    <option th:each="type : ${heroType}"
+                            th:value="${type}"
+                            th:text="#{${'seedstarter.type.' + type}}">Mage</option>
+                    <option th:each="type : ${heroType}"
+                            th:value="${type}"
+                            th:text="#{${'seedstarter.type.' + type}}">Orc</option> -->
+                </select>
             </div>
             <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
         </div>

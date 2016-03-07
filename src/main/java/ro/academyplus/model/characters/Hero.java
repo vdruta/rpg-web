@@ -1,32 +1,45 @@
 package ro.academyplus.model.characters;
 
 
+import ro.academyplus.model.User;
 import ro.academyplus.model.artefacts.*;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 
 /**
  * Created by MM on 2016-02-23.
  */
-public class Hero extends Character implements ManageCharacter {
-    private ArrayList<Artefact> inventory = new ArrayList<Artefact>();
-    private int inventoryCount;
-    private int inventorySize = 3;
+@Entity
+@Table(name = "HERO")
+public class Hero implements ManageCharacter {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+    protected String name;
+    protected int level;
+    protected int health;
+    protected int damage;
+    @OneToMany()
+    protected List<Artefact> inventory ;
+    protected int inventoryCount;
+    protected int inventorySize = 3;
+    protected HeroType heroType;
+    protected DateFormat dateCreated;
 
     public Hero(String name) {
-        super(name);
+        this.name = name;
         this.level = 1;
+        this.dateCreated = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     }
 
-    @Override
     public void receiveDamage(int value) {
         health -= value;
-
     }
 
     @Override
@@ -43,7 +56,7 @@ public class Hero extends Character implements ManageCharacter {
         return false;
     }
 
-    public ArrayList<Artefact> getInventory() {
+    public List<Artefact> getInventory() {
         return inventory;
     }
 
@@ -54,25 +67,6 @@ public class Hero extends Character implements ManageCharacter {
     public void levelUp(){
         level++;
         inventorySize++;
-    }
-
-    public void addStartWeapon(String weapon)throws Exception {
-        inventoryCount++;
-        if (inventoryCount > inventorySize ) {
-            throw new Exception("Inventory is full. A hero can keep in the inventory max " + inventorySize + " artefacts");
-        }
-            if (weapon.compareTo("armor") == 0)
-                addHealth(new Armor("armor", 330));
-            else if (weapon.compareTo("helmet") == 0)
-                addHealth(new Helmet("helmet", 130));
-            else if (weapon.compareTo("axe") == 0)
-                addDamage(new Axe("axe", 60));
-            else if (weapon.compareTo("bow") == 0)
-                addDamage(new Bow("bow", 20));
-            else if (weapon.compareTo("staff") == 0)
-                addDamage(new Staff("staff", 40));
-            else if (weapon.compareTo("sword") == 0)
-                addDamage(new Sword("sword", 70));
     }
 
     public void addArtefact (Artefact artefact) throws Exception {
@@ -133,29 +127,75 @@ public class Hero extends Character implements ManageCharacter {
             damage += ((Sword) artefact).getDamage();
     }
 
-    public void saveHeroToFile(String file) {
-        try {
-            FileOutputStream fout = new FileOutputStream(file);
-            ObjectOutputStream oos = new ObjectOutputStream(fout);
-            oos.writeObject(this);
-            oos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public long getId() {
+        return id;
     }
 
-    public static Hero readHeroFromFile(String file) {
-        Hero hero = null;
-        try {
-            FileInputStream fis = new FileInputStream(file);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            hero = (Hero) ois.readObject();
-            ois.close();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
-        return (hero);
+    public void setId(long id) {
+        this.id = id;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public void setInventory(ArrayList<Artefact> inventory) {
+        this.inventory = inventory;
+    }
+
+    public void setInventoryCount(int inventoryCount) {
+        this.inventoryCount = inventoryCount;
+    }
+
+    public int getInventorySize() {
+        return inventorySize;
+    }
+
+    public void setInventorySize(int inventorySize) {
+        this.inventorySize = inventorySize;
+    }
+
+    public HeroType getHeroType() {
+        return heroType;
+    }
+
+    public void setHeroType(HeroType heroType) {
+        this.heroType = heroType;
+    }
+
+    public DateFormat getDate() {
+        return dateCreated;
+    }
+
+    public void setDate(DateFormat date) {
+        this.dateCreated = date;
+    }
 }

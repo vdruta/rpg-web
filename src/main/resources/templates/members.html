@@ -18,7 +18,7 @@
         <nav>
             <a href="/">Home</a>
             <a href="#">Blog</a>
-            <a href="#">Pricing</a>
+            <a href="/createhero">Create Hero</a>
         </nav>
         <p>Members area</p>
         <ul>
@@ -29,17 +29,11 @@
 <!-- The content of your page would go here. -->
 <div class="menu">
     <h1>Members Area</h1>
-    <p th:text="${'Welcome '+name+'!'}"> </p>
-    <div align="left">
-        <p>Id: </p>
-        <p th:text="${id}">Id: </p>
-        <p>Name: </p>
-        <p th:text="${name}">Name: </p>
-        <p>Email: </p>
-        <p th:text="${email}">Email: </p>
-        <p>Password: </p>
-        <p th:text="${password}">Password</p>
-    </div>
+    <p th:text="${'Welcome '+user.name+'!'}"> </p>
+
+    <table>
+        <tr>
+            <td>
     <div align="left">
         <p>From Database</p>
         <p th:text="${user.id}"></p>
@@ -47,6 +41,23 @@
         <p th:text="${user.email}"></p>
         <p th:text="${user.password}"></p>
     </div>
+            </td>
+            <td>
+                <div align="left">
+                    <p>Heroes</p>
+        <table>
+        <tr th:each="hero: ${user.heroes}"><td th:text="${hero}"></td></tr>
+        </table>
+                </div>
+            </td>
+            <td>
+                <div align="left">
+                <p><a href="/createhero?id=" ${user.id}>Create Hero</a></p>
+
+            </div>
+            </td>
+        </tr>
+        </table>
 </div>
 </body>
 </html>

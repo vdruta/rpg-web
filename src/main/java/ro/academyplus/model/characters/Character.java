@@ -1,24 +1,27 @@
 package ro.academyplus.model.characters;
 
+import org.springframework.data.annotation.Id;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Observable;
 
 /**
  * Created by MM on 2016-02-23.
  */
+@MappedSuperclass
 public abstract class Character implements Serializable {
     protected String name;
     protected int level;
     protected int health;
     protected int damage;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private static int idCount = 0;
 
     public Character(String name){
         this.name = name;
         this.level = 1;
-        this.id = idCount;
-        idCount++;
     }
 
     public String getName(){

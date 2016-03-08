@@ -22,9 +22,9 @@ public class AwesomeController {
 
     @RequestMapping("/")
     public
-    @ResponseBody
+   // @ResponseBody
     String beAwesome() {
-        return "I am awesome!";
+        return "index";
     }
 
     @RequestMapping(value = "/html", method = RequestMethod.GET)

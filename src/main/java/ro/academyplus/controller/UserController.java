@@ -18,7 +18,7 @@ import javax.validation.Valid;
 class UserController {
 
     @Autowired
-    UserService createUserService;
+    UserService userService;
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createUserForm(Model model) {
@@ -36,8 +36,8 @@ class UserController {
             System.out.println("Create error");
             return "create";
         }
-        User userModel = createUserService.registerUser(user);
-        return "redirect:members?id="+userModel.getId();
+        User userModel = userService.registerUser(user);
+        return "redirect:members";
     }
 
 

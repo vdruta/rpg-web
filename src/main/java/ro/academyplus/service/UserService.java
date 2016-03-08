@@ -1,10 +1,12 @@
 package ro.academyplus.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ro.academyplus.dto.UserDTO;
 import ro.academyplus.model.User;
+import ro.academyplus.model.characters.Hero;
 import ro.academyplus.repository.UserRepository;
 
 import java.util.List;
@@ -29,6 +31,12 @@ public class UserService {
         user.setPassword(encodedPass);
         userRepository.save(user);
         return user;
+    }
+
+    public void addNewHero(Hero hero) {
+        User user = userRepository.findOneByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        user.addHero(hero);
+        userRepository.saveAndFlush(user);
     }
 
     public void testQueryMethods() {

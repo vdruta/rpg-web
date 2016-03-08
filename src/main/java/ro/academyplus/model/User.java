@@ -63,7 +63,7 @@ public class User {
     }
 
     public void addHero(Hero hero) {
-        heroes.add(hero);
+        this.heroes.add(hero);
     }
 
 }

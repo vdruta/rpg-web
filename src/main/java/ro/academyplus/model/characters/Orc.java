@@ -15,4 +15,5 @@ public class Orc extends Hero {
         damage = 20 + level * 5;
         heroType = HeroType.ORC;
     }
+    public Orc(){}
 }

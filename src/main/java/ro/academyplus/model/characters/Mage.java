@@ -15,4 +15,5 @@ public class Mage extends Hero {
         damage = 70 + level * 5;
         heroType = HeroType.MAGE;
     }
+    public Mage(){}
 }

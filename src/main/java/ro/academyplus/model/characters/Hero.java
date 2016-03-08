@@ -30,12 +30,16 @@ public class Hero implements ManageCharacter {
     protected int inventoryCount;
     protected int inventorySize = 3;
     protected HeroType heroType;
-    protected DateFormat dateCreated;
+    //protected DateFormat dateCreated;
 
     public Hero(String name) {
         this.name = name;
         this.level = 1;
-        this.dateCreated = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+      //this.dateCreated = new SimpleDateFormat("yyyy");
+
+    }
+
+    public Hero() {
     }
 
     public void receiveDamage(int value) {
@@ -191,11 +195,11 @@ public class Hero implements ManageCharacter {
         this.heroType = heroType;
     }
 
-    public DateFormat getDate() {
-        return dateCreated;
-    }
+    //public DateFormat getDate() {
+      //  return dateCreated;
+   // }
 
-    public void setDate(DateFormat date) {
-        this.dateCreated = date;
-    }
+    //public void setDate(DateFormat date) {
+      //  this.dateCreated = date;
+    //}
 }

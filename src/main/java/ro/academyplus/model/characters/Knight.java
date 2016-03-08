@@ -15,4 +15,5 @@ public class Knight extends Hero {
         damage = 7 + level * 5;
         heroType = HeroType.KNIGHT;
     }
+    public Knight(){}
 }

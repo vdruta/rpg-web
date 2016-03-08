@@ -14,4 +14,6 @@ public class Elf extends Hero{
         damage = 70 + level * 5;
         heroType = heroType.ELF;
     }
+
+    public Elf(){}
 }

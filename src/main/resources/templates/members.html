@@ -22,7 +22,7 @@
         </nav>
         <p>Members area</p>
         <ul>
-            <li><a href="/login">Log Out</a></li>
+            <li><a href="/logout">Log Out</a></li>
         </ul>
     </div>
 </header>
@@ -35,24 +35,44 @@
         <tr>
             <td>
     <div align="left">
-        <p>From Database</p>
-        <p th:text="${user.id}"></p>
+        <p>Authenticated User:</p>
+
         <p th:text="${user.name}"></p>
         <p th:text="${user.email}"></p>
         <p th:text="${user.password}"></p>
-    </div>
+        <p th:text="${user.id}"></p>
+
+        </div>
             </td>
             <td>
                 <div align="left">
                     <p>Heroes</p>
         <table>
-        <tr th:each="hero: ${user.heroes}"><td th:text="${hero}"></td></tr>
+            <tr>
+                <td>Type</td>
+                <td>Name</td>
+                <td>Id</td>
+                <td>Level</td>
+                <td>Health</td>
+                <td>Damage</td>
+                <td>Inventory(items)</td>
+            </tr>
+            <tr th:each="hero: ${user.heroes}">
+                <td th:text="${hero.heroType}"></td>
+                <td th:text="${hero.name}"></td>
+                <td th:text="${hero.id}"></td>
+                <td th:text="${hero.level}"></td>
+                <td th:text="${hero.health}"></td>
+                <td th:text="${hero.damage}"></td>
+                <td th:text="${hero.inventoryCount}"></td>
+                <td>Play</td><td><a th:href="${'/edithero?id='+hero.id}">Edit</a></td>
+            </tr>
         </table>
                 </div>
             </td>
             <td>
-                <div align="left">
-                <p><a href="/createhero?id=" ${user.id}>Create Hero</a></p>
+                <div align="middle">
+                <p><a href="/createhero">Create Hero</a></p>
 
             </div>
             </td>

@@ -9,10 +9,7 @@ import java.util.Observable;
 /**
  * Created by MM on 2016-02-23.
  */
-@MappedSuperclass
 public abstract class Character implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     protected String name;
     protected int level;

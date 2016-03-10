@@ -66,7 +66,7 @@
                 <td th:text="${hero.health}"></td>
                 <td th:text="${hero.damage}"></td>
                 <td th:text="${hero.inventoryCount}"></td>
-                <td>Play</td><td><a th:href="${'/edithero?id='+hero.id}">Edit</a></td>
+                <td><a th:href="${'/startmission?id='+hero.id}">Play</a></td><td><a th:href="${'/edithero?id='+hero.id}">Edit</a></td>
             </tr>
         </table>
                 </div>

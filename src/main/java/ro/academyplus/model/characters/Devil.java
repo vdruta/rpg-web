@@ -6,8 +6,7 @@ import javax.persistence.Table;
 /**
  * Created by MM on 2016-02-23.
  */
-@Entity
-@Table(name = "DEVIL")
+
 public class Devil extends Villain {
     public Devil (String name, int level){
         super(name, level);

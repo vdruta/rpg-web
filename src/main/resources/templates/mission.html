@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Mission ON!</title>
+
+    <link rel="stylesheet" href="demo.css" />
+    <link rel="stylesheet" href="header-login-signup.css" />
+    <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css' />
+</head>
+
+<body>
+<header class="header-login-signup">
+    <div class="header-limiter">
+        <h1><a href="/">Bloody<span>Meadow</span></a></h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/members"  class="selected">Members</a>
+        </nav>
+        <ul>
+            <li><a href="/logout">Log Out</a></li>
+        </ul>
+    </div>
+</header>
+
+<div class="menu">
+    <img src="medieval2.png"/>
+
+    <h1>Create Hero</h1>
+    <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post" allign="middle">
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>Hero</label>
+                <p th:text="${hero.name}"/>
+                <p th:text="${hero.level}"/>
+                <p th:text="${hero.health}"/>
+                <p th:text="${hero.damage}"/>
+            </div>
+            <div class="form-group">
+                <label>Move</label>
+                <select th:field="*{selectedAction}">
+                    <option th:each="entry:*{actions}" th:value="${entry}" th:text="${entry}">Up</option>
+                </select>
+            </div>
+            <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
+        </div>
+    </form>
+
+    <table>
+        <tr th:each="row, i: ${map}">
+            <td th:each="value, j: ${row}"
+                th:class="${i.index} == 0 ? 'row-header' : ${j.index} == 0 ? 'column-header' : ''"
+                th:text="${value} lt 0 ? '' : ${value}">
+            </td>
+        </tr>
+    </table>
+
+</div>
+</body>
+</html>

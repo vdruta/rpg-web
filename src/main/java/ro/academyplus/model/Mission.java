@@ -18,27 +18,30 @@ public class Mission {
     private Hero hero;
     private List<Villain> villains;
     private int[][] map;
+    boolean win;
 
-    private static Mission ourInstance = new Mission();
-
-    public static Mission getInstance(int level) {
-        maplevel = level;
-        return ourInstance;
-    }
-
-    private Mission() {
+    public Mission(int maplevel) {
+        this.maplevel = maplevel;
         this.width = 10 * maplevel;
         this.height = 10 * maplevel;
         int monstersNumber = randInt(1, 15 * maplevel);
         for (int i = 0; i < monstersNumber; i++) {
-            if (i % 4 == 0)
-                this.villains.add(new DarkMage("DarkMage" + i, maplevel));
-            else if (i % 4 == 1)
-                this.villains.add(new Devil("Devil" + i, maplevel));
-            else if (i % 4 == 2)
-                this.villains.add(new Goblin("Goblin" + i, maplevel));
-            else if (i % 4 == 3)
-                this.villains.add(new Necromancer("Necromancer" + i, maplevel));
+            if (i % 4 == 0) {
+                DarkMage darkMage = new DarkMage("DarkMage" + i, maplevel);
+                this.villains.add(darkMage);
+            }
+            else if (i % 4 == 1) {
+                Devil devil = new Devil("Devil" + i, maplevel);
+                this.villains.add(devil);
+            }
+            else if (i % 4 == 2) {
+                Goblin goblin = new Goblin("Goblin" + i, maplevel);
+                this.villains.add(goblin);
+            }
+            else if (i % 4 == 3) {
+                Necromancer necromancer = new Necromancer("Necromancer" + i, maplevel);
+                this.villains.add(necromancer);
+            }
         }
         this.map = new int[10 * maplevel][10 * maplevel];
         //put hero on map center; (2)
@@ -77,6 +80,14 @@ public class Mission {
 
         int randomNum = rand.nextInt((max - min) + 1) + min;
         return randomNum;
+    }
+
+    public boolean isWin() {
+        return win;
+    }
+
+    public void setWin(boolean win) {
+        this.win = win;
     }
 
     public Hero getHero() {

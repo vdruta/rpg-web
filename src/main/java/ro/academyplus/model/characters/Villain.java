@@ -10,8 +10,6 @@ import java.io.ObjectOutputStream;
 /**
  * Created by MM on 2016-02-23.
  */
-@Entity
-@Table(name = "VILLAIN")
 public class Villain extends Character {
     public Villain(String name, int level) {
         super(name);

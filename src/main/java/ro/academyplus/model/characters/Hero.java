@@ -32,6 +32,7 @@ public class Hero implements ManageCharacter {
     protected HeroType heroType;
     protected Date date;
     protected int experience;
+    protected boolean death;
 
     public Hero(String name) {
         this.name = name;
@@ -41,6 +42,14 @@ public class Hero implements ManageCharacter {
     }
 
     public Hero() {
+    }
+
+    public boolean isDeath() {
+        return death;
+    }
+
+    public void setDeath(boolean death) {
+        this.death = death;
     }
 
     public int getExperience() {

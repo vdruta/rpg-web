@@ -13,6 +13,7 @@ import ro.academyplus.model.characters.Hero;
 import ro.academyplus.service.MissionService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +29,17 @@ public class MissionController {
     @RequestMapping(value = "/mission", method = RequestMethod.GET)
     public String createMissionPage(HttpServletRequest request,
                                     Model model){
+        System.out.println(0);
         Hero hero = (Hero) request.getSession().getAttribute("hero");
+        System.out.println(1);
         model.addAttribute("hero", hero);
+        System.out.println(2);
         Mission mission = (Mission) request.getSession().getAttribute("mission");
+        System.out.println(3);
         model.addAttribute("map", mission.getMap());
+        System.out.println(4);
         model.addAttribute("win", mission.isWin());
+        System.out.println(5);
 
         MissionDTO missionDTO = new MissionDTO();
         List<String> actions = new ArrayList<String>();
@@ -54,6 +61,6 @@ public class MissionController {
             return "members";
         }
         missionService.updateMission(missionDTO);
-        return "mission";
+        return "redirect:mission";
     }
 }

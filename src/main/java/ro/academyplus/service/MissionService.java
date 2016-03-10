@@ -23,20 +23,32 @@ public class MissionService {
     HttpServletRequest request;
 
     public void updateMission(MissionDTO missionDTO) {
+        System.out.println(6);
         Mission mission = (Mission) request.getSession().getAttribute("mission");
+        System.out.println(7);
         Hero hero = (Hero) request.getSession().getAttribute("hero");
-        if (missionDTO.getSelectedAction().compareTo("Up") == 1) {
+        System.out.println(8);
+        System.out.println(missionDTO.getSelectedAction());
+        System.out.println(hero.getName());
+        System.out.println(mission.getWidth());
+        if (missionDTO.getSelectedAction().compareTo("Up") == 0) {
+            System.out.println(9);
                 if (dirIsMonster("Up", mission.getMap(), mission.getWidth())) {
+                    System.out.println(10);
                     if (new Random().nextBoolean()) {
+                        System.out.println(11);
                         fight("Up", hero, mission.getMap(), mission.getWidth(), mission.getVillains());
+                        System.out.println(12);
                         if (hero.getHealth() > 0) {
                             moveHero("Up", mission.getMap(), mission.getWidth());
                             if (heroIsOnBorder("Up", mission.getMap(), mission.getWidth())) {
                                 mission.setWin(true);
                             }
                         }
-                        else
+                        else {
                             hero.setDeath(true);
+                            System.out.println(13);
+                        }
                     }
                     else {
                         System.out.println("I can run, ha ha ha :)");
@@ -50,7 +62,7 @@ public class MissionService {
                     }
                 }
         }
-        if (missionDTO.getSelectedAction().compareTo("Down") == 1) {
+        if (missionDTO.getSelectedAction().compareTo("Down") == 0) {
             if (dirIsMonster("Down", mission.getMap(), mission.getWidth())) {
                 if (new Random().nextBoolean()) {
                     fight("Down", hero, mission.getMap(), mission.getWidth(), mission.getVillains());
@@ -75,7 +87,7 @@ public class MissionService {
                 }
             }
         }
-        if (missionDTO.getSelectedAction().compareTo("Left") == 1) {
+        if (missionDTO.getSelectedAction().compareTo("Left") == 0) {
             if (dirIsMonster("Left", mission.getMap(), mission.getWidth())) {
                 if (new Random().nextBoolean()) {
                     fight("Left", hero, mission.getMap(), mission.getWidth(), mission.getVillains());
@@ -100,7 +112,7 @@ public class MissionService {
                 }
             }
         }
-        if (missionDTO.getSelectedAction().compareTo("Right") == 1) {
+        if (missionDTO.getSelectedAction().compareTo("Right") == 0) {
             if (dirIsMonster("Right", mission.getMap(), mission.getWidth())) {
                 if (new Random().nextBoolean()) {
                     fight("Right", hero, mission.getMap(), mission.getWidth(), mission.getVillains());
@@ -131,14 +143,18 @@ public class MissionService {
 
         if (dir.compareTo("Up") == 0) {
             for (int i = 0; i < width; i++) {
-                for (int j = 0; i < width; j++) {
+                for (int j = 0; j < width; j++) {
                     if (map[i][j] == 2) {
+                        System.out.println("q");
                         for (Villain v : villains) {
+                            System.out.println("w");
                             if (v.getIy() == i - 1 && v.getJx() == j) {
+                                System.out.println("e");
                                 while (hero.getHealth() > 0 && v.getHealth() > 0) {
                                     v.receiveDamage(hero.getDamage());
                                     hero.receiveDamage(v.getDamage());
                                 }
+                                System.out.println("r");
                                 if (hero.getHealth() < 0)
                                     hero.setDeath(true);
                                 else
@@ -153,7 +169,7 @@ public class MissionService {
         }
         else if (dir.compareTo("Down") == 0) {
             for (int i = 0; i < width; i++) {
-                for (int j = 0; i < width; j++) {
+                for (int j = 0; j < width; j++) {
                     if (map[i][j] == 2) {
                         for (Villain v : villains) {
                             if (v.getIy() == i + 1 && v.getJx() == j){
@@ -176,7 +192,7 @@ public class MissionService {
         }
         else if (dir.compareTo("Left") == 0) {
             for (int i = 0; i < width; i++) {
-                for (int j = 0; i < width; j++) {
+                for (int j = 0; j < width; j++) {
                     if (map[i][j] == 2) {
                         for (Villain v : villains) {
                             if (v.getIy() == i && v.getJx() == j - 1){
@@ -198,7 +214,7 @@ public class MissionService {
         }
         else if (dir.compareTo("Right") == 0) {
             for (int i = 0; i < width; i++) {
-                for (int j = 0; i < width; j++) {
+                for (int j = 0; j < width; j++) {
                     if (map[i][j] == 2) {
                         for (Villain v : villains) {
                             if (v.getIy() == i && v.getJx() == j + 1){

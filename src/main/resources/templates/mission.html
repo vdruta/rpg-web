@@ -29,17 +29,17 @@
 
 <div class="menu">
     <img src="medieval2.png"/>
+    <div class="form-group">
+        <label>Hero</label>
+        <p th:text="${hero.name}"/>
+        <p th:text="${hero.level}"/>
+        <p th:text="${hero.health}"/>
+        <p th:text="${hero.damage}"/>
+    </div>
 
-    <h1>Create Hero</h1>
+    <label>Action</label>
     <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post" allign="middle">
         <div class="col-lg-4">
-            <div class="form-group">
-                <label>Hero</label>
-                <p th:text="${hero.name}"/>
-                <p th:text="${hero.level}"/>
-                <p th:text="${hero.health}"/>
-                <p th:text="${hero.damage}"/>
-            </div>
             <div class="form-group">
                 <label>Move</label>
                 <select th:field="*{selectedAction}">
@@ -49,7 +49,7 @@
             <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
         </div>
     </form>
-
+<!--
     <table>
         <tr th:each="row, i: ${map}">
             <td th:each="value, j: ${row}"
@@ -58,7 +58,7 @@
             </td>
         </tr>
     </table>
-
+-->
 </div>
 </body>
 </html>

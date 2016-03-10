@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  * Created by MM on 2016-03-09.
  */
 @Controller
-public class StartMissionController {
+public class MissionStartController {
     @Autowired
     HeroRepository heroRepository;
     @Autowired

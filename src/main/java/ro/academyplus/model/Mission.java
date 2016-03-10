@@ -3,6 +3,7 @@ package ro.academyplus.model;
 import org.springframework.beans.factory.annotation.Autowired;
 import ro.academyplus.model.characters.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -15,8 +16,7 @@ public class Mission {
     private static int maplevel;
     private int width;
     private int height;
-    private Hero hero;
-    private List<Villain> villains;
+    private List<Villain> villains = new ArrayList<Villain>();
     private int[][] map;
     boolean win;
 
@@ -24,7 +24,7 @@ public class Mission {
         this.maplevel = maplevel;
         this.width = 10 * maplevel;
         this.height = 10 * maplevel;
-        int monstersNumber = randInt(1, 15 * maplevel);
+        int monstersNumber = 80;//randInt(1, 15 * maplevel);
         for (int i = 0; i < monstersNumber; i++) {
             if (i % 4 == 0) {
                 DarkMage darkMage = new DarkMage("DarkMage" + i, maplevel);
@@ -88,14 +88,6 @@ public class Mission {
 
     public void setWin(boolean win) {
         this.win = win;
-    }
-
-    public Hero getHero() {
-        return hero;
-    }
-
-    public void setHero(Hero hero) {
-        this.hero = hero;
     }
 
     public void setMap(int[][] map) {

@@ -15,7 +15,15 @@ public class HeroDTO {
     public List<String> htypes;
     public String selectedType;
     public long tmpid;
+    public boolean del;
 
+    public boolean isDelete() {
+        return del;
+    }
+
+    public void setDelete(boolean del) {
+        this.del = del;
+    }
 
     public long getTmpid() {
         return tmpid;

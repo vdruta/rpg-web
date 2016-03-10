@@ -25,21 +25,30 @@ public class Hero implements ManageCharacter {
     protected int level;
     protected int health;
     protected int damage;
-    @OneToMany()
+    @OneToMany(cascade = CascadeType.ALL)
     protected List<Artefact> inventory ;
     protected int inventoryCount;
     protected int inventorySize = 3;
     protected HeroType heroType;
-    //protected DateFormat dateCreated;
+    protected Date date;
+    protected int experience;
 
     public Hero(String name) {
         this.name = name;
         this.level = 1;
-      //this.dateCreated = new SimpleDateFormat("yyyy");
+        this.date = new Date();
 
     }
 
     public Hero() {
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 
     public void receiveDamage(int value) {
@@ -139,6 +148,14 @@ public class Hero implements ManageCharacter {
         this.id = id;
     }
 
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
     public int getHealth() {
         return health;
     }
@@ -195,11 +212,4 @@ public class Hero implements ManageCharacter {
         this.heroType = heroType;
     }
 
-    //public DateFormat getDate() {
-      //  return dateCreated;
-   // }
-
-    //public void setDate(DateFormat date) {
-      //  this.dateCreated = date;
-    //}
 }

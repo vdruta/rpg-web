@@ -22,9 +22,7 @@ public class HeroService {
     UserRepository userRepository;
 
     public Hero createHero(HeroDTO heroDTO) {
-        System.out.println("a");
         Hero hero = new Hero("default");
-        System.out.println("b");
         if (heroDTO.getSelectedType().compareTo("Elf") == 0)
             hero = (Hero) (new Elf(heroDTO.getName()));
         else if (heroDTO.getSelectedType().compareTo("Mage") == 0)
@@ -47,10 +45,7 @@ public class HeroService {
             hero = (Hero) (new Knight(heroDTO.getName()));
         else if (heroDTO.getSelectedType().compareTo("Orc") == 0)
             hero = (Hero) (new Orc(heroDTO.getName()));
-        System.out.println("c");
         heroRepository.save(hero);
-        System.out.println("d");
-        return;
     }
 
     public void updateHero(HeroDTO heroDTO) {
@@ -58,6 +53,15 @@ public class HeroService {
         List<Hero> heros = user.getHeroes();
         for (Hero h : heros) {
             if (h.getId() == heroDTO.getTmpid()) {
+                if (heroDTO.isDelete()) {
+                    //delete hero from user heroes + update user
+                    heros.remove(h);
+                    userRepository.saveAndFlush(user);
+                    //delete hero from database
+                    heroRepository.delete(h);
+                    heroRepository.flush();
+                    return ;
+                }
                 h.setName(heroDTO.getName());
                 heroRepository.save(h);
             }

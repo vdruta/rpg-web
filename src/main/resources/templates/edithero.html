@@ -19,30 +19,16 @@
         <h1><a href="/">Bloody<span>Meadow</span></a></h1>
         <nav>
             <a href="/">Home</a>
-            <a href="#">Blog</a>
-            <a href="#">Pricing</a>
-            <a href="/create"  class="selected">Sign Up</a>
+            <a href="/members"  class="selected">Members</a>
         </nav>
         <ul>
-            <li><a href="/login">Login</a></li>
-            <li><a href="/create">Sign up</a></li>
+            <li><a href="/logout">Log Out</a></li>
         </ul>
     </div>
 </header>
-<!-- The content of your page would go here. -->
+
 <div class="menu">
-    <img src="marius-adauga-poza.png" alt="arrow" height="120" />
-    <!--
-        <ul>
-            <li><a href="index.html">Basic</a></li>
-            <li><a href="header-basic-light.html">Basic Light</a></li>
-            <li><a href="header-fixed.html">Fixed</a></li>
-            <li><a href="header-login-signup.html" class="active">Login/Sign up</a></li>
-            <li><a href="header-search.html">Search</a></li>
-            <li><a href="header-second-bar.html">Second Bar</a></li>
-            <li><a href="header-user-dropdown.html">User Dropdown</a></li>
-        </ul>
-    -->
+    <img src="medieval2.png"/>
 
     <h1>Edit Hero</h1>
     <form action="#" th:action="@{/edithero}" th:object="${herodto}" method="post" allign="middle">
@@ -54,6 +40,10 @@
             <div class="form-group">
                 <label>Id</label>
                 <input class="form-control" th:field="*{tmpid}"/>
+            </div>
+           <div class="form-group">
+                <label>Delete Hero</label>
+                <input class="form-control" type="checkbox" th:field="*{delete}"/>
             </div>
             <button type="submit" value="Submit" class="btn btn-danger">Update</button>
         </div>

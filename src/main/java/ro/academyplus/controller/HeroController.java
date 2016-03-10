@@ -70,6 +70,7 @@ public class HeroController {
         HeroDTO heroDTO = new HeroDTO();
         heroDTO.setName(hero.getName());
         heroDTO.setTmpid(hero.getId());
+        heroDTO.setDelete(false);
         model.addAttribute("herodto", heroDTO);
         return "edithero";
     }

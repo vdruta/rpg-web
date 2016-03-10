@@ -31,18 +31,8 @@
 </header>
 <!-- The content of your page would go here. -->
 <div class="menu">
+    <img src="medieval2.png"/>
 
-    <!--
-        <ul>
-            <li><a href="index.html">Basic</a></li>
-            <li><a href="header-basic-light.html">Basic Light</a></li>
-            <li><a href="header-fixed.html">Fixed</a></li>
-            <li><a href="header-login-signup.html" class="active">Login/Sign up</a></li>
-            <li><a href="header-search.html">Search</a></li>
-            <li><a href="header-second-bar.html">Second Bar</a></li>
-            <li><a href="header-user-dropdown.html">User Dropdown</a></li>
-        </ul>
-    -->
 
     <h1>Create Hero</h1>
     <form action="#" th:action="@{/createhero}" th:object="${herodto}" method="post" allign="middle">
@@ -55,15 +45,6 @@
                 <label>Hero Type</label>
                 <select th:field="*{selectedType}">
                     <option th:each="entry:*{htypes}" th:value="${entry}" th:text="${entry}">Elf</option>
-                   <!-- <option th:each="type : ${types}"
-                            th:value="${type.key}"
-                            th:text="${type.value}">Knight</option>
-                    <option th:each="type : ${types}"
-                            th:value="${type.key}"
-                            th:text="${type.value}">Mage</option>
-                    <option th:each="type : ${types}"
-                            th:value="${type.key}"
-                            th:text="${type.value}">Orc</option>-->
                 </select>
             </div>
 

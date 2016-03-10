@@ -1,5 +1,6 @@
 package ro.academyplus.model;
 
+import org.hibernate.annotations.Cascade;
 import ro.academyplus.model.characters.Hero;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class User {
     private String name;
     private String email;
     private String password;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Hero> heroes;
 
     public String getPassword() {

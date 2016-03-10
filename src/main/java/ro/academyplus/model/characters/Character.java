@@ -11,18 +11,37 @@ import java.util.Observable;
  */
 @MappedSuperclass
 public abstract class Character implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     protected String name;
     protected int level;
     protected int health;
     protected int damage;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    protected int iy;
+    protected int jx;
+
+    public int getJx() {
+        return jx;
+    }
+
+    public void setJx(int jx) {
+        this.jx = jx;
+    }
+
+    public int getIy() {
+        return iy;
+    }
+
+    public void setIy(int iy) {
+        this.iy = iy;
+    }
 
     public Character(String name){
         this.name = name;
         this.level = 1;
     }
+
 
     public String getName(){
         return name;

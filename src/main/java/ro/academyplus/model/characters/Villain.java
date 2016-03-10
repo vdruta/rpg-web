@@ -1,5 +1,7 @@
 package ro.academyplus.model.characters;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -8,6 +10,8 @@ import java.io.ObjectOutputStream;
 /**
  * Created by MM on 2016-02-23.
  */
+@Entity
+@Table(name = "VILLAIN")
 public class Villain extends Character {
     public Villain(String name, int level) {
         super(name);

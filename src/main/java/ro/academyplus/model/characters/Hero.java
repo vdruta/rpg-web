@@ -38,7 +38,7 @@ public class Hero implements ManageCharacter {
         this.name = name;
         this.level = 1;
         this.date = new Date();
-
+        this.experience = 0;
     }
 
     public Hero() {
@@ -89,6 +89,8 @@ public class Hero implements ManageCharacter {
     public void levelUp(){
         level++;
         inventorySize++;
+        health += health * level * 1 / 10;
+        damage += damage * level * 1 / 10;
     }
 
     public void addArtefact (Artefact artefact) throws Exception {

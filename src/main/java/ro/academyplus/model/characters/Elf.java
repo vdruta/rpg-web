@@ -10,8 +10,8 @@ import javax.persistence.*;
 public class Elf extends Hero{
     public Elf(String name){
         super(name);
-        health = 1700 + level * 5;
-        damage = 70 + level * 5;
+        health = 1200;
+        damage = 70;
         heroType = heroType.ELF;
     }
 

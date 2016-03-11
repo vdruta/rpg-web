@@ -8,6 +8,7 @@ import ro.academyplus.model.characters.DarkMage;
 import ro.academyplus.model.characters.Devil;
 import ro.academyplus.model.characters.Hero;
 import ro.academyplus.model.characters.Villain;
+import ro.academyplus.repository.HeroRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -21,44 +22,42 @@ public class MissionService {
 
     @Autowired
     HttpServletRequest request;
+    @Autowired
+    HeroRepository heroRepository;
 
     public void updateMission(MissionDTO missionDTO) {
-        System.out.println(6);
         Mission mission = (Mission) request.getSession().getAttribute("mission");
-        System.out.println(7);
         Hero hero = (Hero) request.getSession().getAttribute("hero");
-        System.out.println(8);
-        System.out.println(missionDTO.getSelectedAction());
-        System.out.println(hero.getName());
-        System.out.println(mission.getWidth());
         if (missionDTO.getSelectedAction().compareTo("Up") == 0) {
-            System.out.println(9);
                 if (dirIsMonster("Up", mission.getMap(), mission.getWidth())) {
-                    System.out.println(10);
                     if (new Random().nextBoolean()) {
-                        System.out.println(11);
                         fight("Up", hero, mission.getMap(), mission.getWidth(), mission.getVillains());
-                        System.out.println(12);
                         if (hero.getHealth() > 0) {
                             moveHero("Up", mission.getMap(), mission.getWidth());
                             if (heroIsOnBorder("Up", mission.getMap(), mission.getWidth())) {
                                 mission.setWin(true);
+                                hero.levelUp();
+                                heroRepository.saveAndFlush(hero);
+                                return ;
                             }
                         }
                         else {
                             hero.setDeath(true);
-                            System.out.println(13);
                         }
                     }
                     else {
                         System.out.println("I can run, ha ha ha :)");
                         return ;
                     }
+                    printMap(mission.getMap(), mission.getWidth());
                 }
                 else {
                     moveHero("Up", mission.getMap(), mission.getWidth());
                     if (heroIsOnBorder("Up", mission.getMap(), mission.getWidth())) {
                         mission.setWin(true);
+                        hero.levelUp();
+                        heroRepository.saveAndFlush(hero);
+                        return ;
                     }
                 }
         }
@@ -70,6 +69,8 @@ public class MissionService {
                         moveHero("Down", mission.getMap(), mission.getWidth());
                         if (heroIsOnBorder("Down", mission.getMap(), mission.getWidth())) {
                             mission.setWin(true);
+                            hero.levelUp();
+                            heroRepository.saveAndFlush(hero);
                         }
                     }
                     else
@@ -84,6 +85,8 @@ public class MissionService {
                 moveHero("Down", mission.getMap(), mission.getWidth());
                 if (heroIsOnBorder("Down", mission.getMap(), mission.getWidth())) {
                     mission.setWin(true);
+                    hero.levelUp();
+                    heroRepository.saveAndFlush(hero);
                 }
             }
         }
@@ -95,6 +98,8 @@ public class MissionService {
                         moveHero("Left", mission.getMap(), mission.getWidth());
                         if (heroIsOnBorder("Left", mission.getMap(), mission.getWidth())) {
                             mission.setWin(true);
+                            hero.levelUp();
+                            heroRepository.saveAndFlush(hero);
                         }
                     }
                     else
@@ -109,6 +114,8 @@ public class MissionService {
                 moveHero("Left", mission.getMap(), mission.getWidth());
                 if (heroIsOnBorder("Left", mission.getMap(), mission.getWidth())) {
                     mission.setWin(true);
+                    hero.levelUp();
+                    heroRepository.saveAndFlush(hero);
                 }
             }
         }
@@ -120,6 +127,8 @@ public class MissionService {
                         moveHero("Right", mission.getMap(), mission.getWidth());
                         if (heroIsOnBorder("Right", mission.getMap(), mission.getWidth())) {
                             mission.setWin(true);
+                            hero.levelUp();
+                            heroRepository.saveAndFlush(hero);
                         }
                     }
                     else
@@ -127,38 +136,54 @@ public class MissionService {
                 }
                 else {
                     System.out.println("I can run, ha ha ha :)");
-                    return ;
+                    return;
                 }
             }
             else {
                 moveHero("Right", mission.getMap(), mission.getWidth());
                 if (heroIsOnBorder("Right", mission.getMap(), mission.getWidth())) {
                     mission.setWin(true);
+                    hero.levelUp();
+                    heroRepository.saveAndFlush(hero);
                 }
             }
         }
     }
 
-    private void fight(String dir, Hero hero, int[][] map, int width, List<Villain> villains) {
+    public void printMap(int[][] map, int width) {
+        for (int i = 0; i<width; i++) {
+            for (int j = 0; j<width; j++) {
+                System.out.print(map[i][j] +" ");
+            }
+            System.out.println();
+        }
+    }
 
+    private void fight(String dir, Hero hero, int[][] map, int width, List<Villain> villains) {
         if (dir.compareTo("Up") == 0) {
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
                     if (map[i][j] == 2) {
-                        System.out.println("q");
                         for (Villain v : villains) {
-                            System.out.println("w");
                             if (v.getIy() == i - 1 && v.getJx() == j) {
-                                System.out.println("e");
                                 while (hero.getHealth() > 0 && v.getHealth() > 0) {
                                     v.receiveDamage(hero.getDamage());
                                     hero.receiveDamage(v.getDamage());
                                 }
-                                System.out.println("r");
-                                if (hero.getHealth() < 0)
+                                if (hero.getHealth() <= 0) {
                                     hero.setDeath(true);
-                                else
-                                    System.out.println("todo kill monster part");
+                                    hero.setHealth(0);
+                                }
+                                else {
+                                    if (hero.getExperience() < 100)
+                                        hero.setExperience(hero.getExperience() + 10);
+                                    if (hero.getExperience() == 100) {
+                                        hero.setExperience(0);
+                                        hero.levelUp();
+                                    }
+
+                                }
+
                                     //get artifact with random coefficient
                                     //get experience
                             }
@@ -168,21 +193,37 @@ public class MissionService {
             }
         }
         else if (dir.compareTo("Down") == 0) {
+            System.out.println(0);
             for (int i = 0; i < width; i++) {
+                System.out.println(1);
                 for (int j = 0; j < width; j++) {
+                    System.out.println(2);
                     if (map[i][j] == 2) {
+                        System.out.println(3);
                         for (Villain v : villains) {
-                            if (v.getIy() == i + 1 && v.getJx() == j){
+                            System.out.println(4);
+                            if (v.getIy() == i + 1 && v.getJx() == j) {
+                                System.out.println(5);
                                 while (hero.getHealth() > 0 && v.getHealth() > 0) {
+                                    System.out.println(6);
                                     v.receiveDamage(hero.getDamage());
+                                    System.out.println(7);
                                     hero.receiveDamage(v.getDamage());
+                                    System.out.println(8);
                                 }
-                                if (hero.getHealth() < 0)
+                                System.out.println(9);
+                                if (hero.getHealth() <= 0) {
                                     hero.setDeath(true);
-                                else
-                                    System.out.println("todo kill monster part");
-                                //get artifact with random coefficient
-                                //get experience
+                                    hero.setHealth(0);
+                                }
+                                else {
+                                    if (hero.getExperience() < 100)
+                                        hero.setExperience(hero.getExperience() + 10);
+                                    if (hero.getExperience() == 100) {
+                                        hero.setExperience(0);
+                                        hero.levelUp();
+                                    }
+                                }
                             }
 
                         }
@@ -202,10 +243,14 @@ public class MissionService {
                                 }
                                 if (hero.getHealth() < 0)
                                     hero.setDeath(true);
-                                else
-                                    System.out.println("todo kill monster part");
-                                //get artifact with random coefficient
-                                //get experience
+                                else {
+                                    if (hero.getExperience() < 100)
+                                        hero.setExperience(hero.getExperience() + 10);
+                                    if (hero.getExperience() == 100) {
+                                        hero.setExperience(0);
+                                        hero.levelUp();
+                                    }
+                                }
                             }
                         }
                     }
@@ -224,10 +269,14 @@ public class MissionService {
                                 }
                                 if (hero.getHealth() < 0)
                                     hero.setDeath(true);
-                                else
-                                    System.out.println("todo kill monster part");
-                                //get artifact with random coefficient
-                                //get experience
+                                else {
+                                    if (hero.getExperience() < 100)
+                                        hero.setExperience(hero.getExperience() + 10);
+                                    if (hero.getExperience() == 100) {
+                                        hero.setExperience(0);
+                                        hero.levelUp();
+                                    }
+                                }
                             }
                         }
                     }
@@ -242,24 +291,30 @@ public class MissionService {
 
     private void moveHero(String dir, int[][] map, int width) {
         if (dir.compareTo("Up") == 0) {
+            System.out.println("move up");
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
                     if (map[i][j] == 2) {
-                        if (i - 1 > 0){
+                        if (i - 1 >= 0){
                             map[i -1][j] = 2;
                             map[i][j] = 0;
+                            return;
                         }
                     }
                 }
             }
         }
         else if (dir.compareTo("Down") == 0) {
+            System.out.println(1);
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
                     if (map[i][j] == 2) {
-                        if (i + 1 < width){
+                        System.out.println(2);
+                        if (i + 1 <= width){
+                            System.out.println(3);
                             map[i + 1][j] = 2;
                             map[i][j] = 0;
+                            return;
                         }
                     }
                 }
@@ -269,9 +324,10 @@ public class MissionService {
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
                     if (map[i][j] == 2) {
-                        if (j - 1 > 0){
+                        if (j - 1 >= 0){
                             map[i][j - 1] = 2;
                             map[i][j] = 0;
+                            return;
                         }
                     }
                 }
@@ -281,9 +337,10 @@ public class MissionService {
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
                     if (map[i][j] == 2) {
-                        if (j + 1 < width){
+                        if (j + 1 <= width){
                             map[i][j + 1] = 2;
                             map[i][j] = 0;
+                            return;
                         }
                     }
                 }
@@ -339,8 +396,10 @@ public class MissionService {
         if (dir.compareTo("Up") == 0) {
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
-                    if (map[i][j] == 2 && i == 0) {
+                    if (map[i][j] == 2) {
+                        if (i == 0) {
                             return true;
+                        }
                     }
                 }
             }

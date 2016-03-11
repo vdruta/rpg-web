@@ -11,8 +11,8 @@ import javax.persistence.Table;
 public class Orc extends Hero {
     public Orc(String name){
         super(name);
-        health = 1700 + level * 20;
-        damage = 20 + level * 5;
+        health = 1700;
+        damage = 30;
         heroType = HeroType.ORC;
     }
     public Orc(){}

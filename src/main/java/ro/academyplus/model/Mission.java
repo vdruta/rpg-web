@@ -24,7 +24,7 @@ public class Mission {
         this.maplevel = maplevel;
         this.width = 10 * maplevel;
         this.height = 10 * maplevel;
-        int monstersNumber = 80;//randInt(1, 15 * maplevel);
+        int monstersNumber = 300;//randInt(10, 15 * maplevel);
         for (int i = 0; i < monstersNumber; i++) {
             if (i % 4 == 0) {
                 DarkMage darkMage = new DarkMage("DarkMage" + i, maplevel);
@@ -43,7 +43,7 @@ public class Mission {
                 this.villains.add(necromancer);
             }
         }
-        this.map = new int[10 * maplevel][10 * maplevel];
+        this.map = new int[10 * maplevel + 1][10 * maplevel + 1];
         //put hero on map center; (2)
         map[10 * maplevel / 2 - 1][10 * maplevel / 2 - 1] = 2;
         //put villains random on map (1)
@@ -73,7 +73,6 @@ public class Mission {
         }
         return map;
     }
-
 
     public static int randInt(int min, int max) {
         Random rand = new Random();

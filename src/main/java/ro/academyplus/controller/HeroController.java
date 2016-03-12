@@ -52,9 +52,17 @@ public class HeroController {
     }
 
     @RequestMapping(value = "/createhero", method = RequestMethod.POST)
-    public String createHero (@ModelAttribute(value = "herodto") @Valid HeroDTO heroDTO, BindingResult bindingResult) {
+    public String createHero (@ModelAttribute(value = "herodto") @Valid HeroDTO heroDTO, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             System.out.println("error creating hero");
+            List<String> heroes = new ArrayList<String>();
+            heroes.add("Elf");
+            heroes.add("Mage");
+            heroes.add("Knight");
+            heroes.add("Orc");
+            heroDTO.setHtypes(heroes);
+            heroDTO.setName("");
+            model.addAttribute("herodto", heroDTO);
             return "createhero";
         }
         Hero hero = heroService.createHero(heroDTO);

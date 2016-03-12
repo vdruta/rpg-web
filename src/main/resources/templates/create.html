@@ -2,15 +2,15 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <title>Login, Sign up Header</title>
 
-    <link rel="stylesheet" href="demo.css" />
-    <link rel="stylesheet" href="header-login-signup.css" />
-    <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="demo.css"/>
+    <link rel="stylesheet" href="header-login-signup.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'/>
 </head>
 
 <body>
@@ -21,7 +21,7 @@
             <a href="/">Home</a>
             <a href="#">Blog</a>
             <a href="#">Pricing</a>
-            <a href="/create"  class="selected">Sign Up</a>
+            <a href="/create" class="selected">Sign Up</a>
         </nav>
         <ul>
             <li><a href="/login">Login</a></li>
@@ -29,22 +29,7 @@
         </ul>
     </div>
 </header>
-<!-- The content of your page would go here. -->
-<center><body background="medieval2.png"></body> </center>
-<div class="menu">
-    <img src="sign_up.gif"/>
-    <!--
-        <ul>
-            <li><a href="index.html">Basic</a></li>
-            <li><a href="header-basic-light.html">Basic Light</a></li>
-            <li><a href="header-fixed.html">Fixed</a></li>
-            <li><a href="header-login-signup.html" class="active">Login/Sign up</a></li>
-            <li><a href="header-search.html">Search</a></li>
-            <li><a href="header-second-bar.html">Second Bar</a></li>
-            <li><a href="header-user-dropdown.html">User Dropdown</a></li>
-        </ul>
-    -->
-
+<div class="menu" style="background-image:url(medieval.png);">
     <h1 th:text="${pagetitle}"></h1>
     <form action="#" th:action="@{/create}" th:object="${user}" method="post" allign="middle">
         <div class="col-lg-4">

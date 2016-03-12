@@ -25,9 +25,56 @@ public class MissionService {
     @Autowired
     HeroRepository heroRepository;
 
+    public void playMission(MissionDTO missionDTO) {
+        Mission mission = (Mission) request.getSession().getAttribute("mission");
+        if (mission.isMonster())
+            updateMission(missionDTO);
+        else
+            processAction(missionDTO);
+    }
     public void updateMission(MissionDTO missionDTO) {
         Mission mission = (Mission) request.getSession().getAttribute("mission");
         Hero hero = (Hero) request.getSession().getAttribute("hero");
+
+        if (missionDTO.getSelectedFightAction().compareTo("Run") == 0){
+            if (new Random().nextBoolean()) {
+                fight(mission.getMonsterLocation(), hero, mission.getMap(), mission.getWidth(), mission.getVillains());
+                if (hero.getHealth() > 0) {
+                    mission.setMonster(false);
+                    moveHero(mission.getMonsterLocation(), mission.getMap(), mission.getWidth());
+                    if (heroIsOnBorder(mission.getMonsterLocation(), mission.getMap(), mission.getWidth())) {
+                        mission.setWin(true);
+                        giveHeroExperience(hero, 30);
+                        heroRepository.saveAndFlush(hero);
+                        return ;
+                    }
+                }
+                else {
+                    hero.setDeath(true);
+                }
+            }
+            else {
+                mission.setMonster(false);
+                return;
+            }
+        }
+        else if (missionDTO.getSelectedFightAction().compareTo("Fight") == 0) {
+            fight(mission.getMonsterLocation(), hero, mission.getMap(), mission.getWidth(), mission.getVillains());
+            if (hero.getHealth() > 0) {
+                mission.setMonster(false);
+                moveHero(mission.getMonsterLocation(), mission.getMap(), mission.getWidth());
+                if (heroIsOnBorder(mission.getMonsterLocation(), mission.getMap(), mission.getWidth())) {
+                    mission.setWin(true);
+                    giveHeroExperience(hero, 30);
+                    heroRepository.saveAndFlush(hero);
+                    return ;
+                }
+            }
+            else {
+                hero.setDeath(true);
+            }
+        }
+        /*
         if (missionDTO.getSelectedAction().compareTo("Up") == 0) {
                 if (dirIsMonster("Up", mission.getMap(), mission.getWidth())) {
                     if (new Random().nextBoolean()) {
@@ -36,7 +83,7 @@ public class MissionService {
                             moveHero("Up", mission.getMap(), mission.getWidth());
                             if (heroIsOnBorder("Up", mission.getMap(), mission.getWidth())) {
                                 mission.setWin(true);
-                                hero.levelUp();
+                                giveHeroExperience(hero, 30);
                                 heroRepository.saveAndFlush(hero);
                                 return ;
                             }
@@ -55,7 +102,7 @@ public class MissionService {
                     moveHero("Up", mission.getMap(), mission.getWidth());
                     if (heroIsOnBorder("Up", mission.getMap(), mission.getWidth())) {
                         mission.setWin(true);
-                        hero.levelUp();
+                        giveHeroExperience(hero, 30);
                         heroRepository.saveAndFlush(hero);
                         return ;
                     }
@@ -69,7 +116,7 @@ public class MissionService {
                         moveHero("Down", mission.getMap(), mission.getWidth());
                         if (heroIsOnBorder("Down", mission.getMap(), mission.getWidth())) {
                             mission.setWin(true);
-                            hero.levelUp();
+                            giveHeroExperience(hero, 30);
                             heroRepository.saveAndFlush(hero);
                         }
                     }
@@ -85,7 +132,7 @@ public class MissionService {
                 moveHero("Down", mission.getMap(), mission.getWidth());
                 if (heroIsOnBorder("Down", mission.getMap(), mission.getWidth())) {
                     mission.setWin(true);
-                    hero.levelUp();
+                    giveHeroExperience(hero, 30);
                     heroRepository.saveAndFlush(hero);
                 }
             }
@@ -98,7 +145,7 @@ public class MissionService {
                         moveHero("Left", mission.getMap(), mission.getWidth());
                         if (heroIsOnBorder("Left", mission.getMap(), mission.getWidth())) {
                             mission.setWin(true);
-                            hero.levelUp();
+                            giveHeroExperience(hero, 30);
                             heroRepository.saveAndFlush(hero);
                         }
                     }
@@ -114,7 +161,7 @@ public class MissionService {
                 moveHero("Left", mission.getMap(), mission.getWidth());
                 if (heroIsOnBorder("Left", mission.getMap(), mission.getWidth())) {
                     mission.setWin(true);
-                    hero.levelUp();
+                    giveHeroExperience(hero, 30);
                     heroRepository.saveAndFlush(hero);
                 }
             }
@@ -127,7 +174,7 @@ public class MissionService {
                         moveHero("Right", mission.getMap(), mission.getWidth());
                         if (heroIsOnBorder("Right", mission.getMap(), mission.getWidth())) {
                             mission.setWin(true);
-                            hero.levelUp();
+                            giveHeroExperience(hero, 30);
                             heroRepository.saveAndFlush(hero);
                         }
                     }
@@ -143,10 +190,79 @@ public class MissionService {
                 moveHero("Right", mission.getMap(), mission.getWidth());
                 if (heroIsOnBorder("Right", mission.getMap(), mission.getWidth())) {
                     mission.setWin(true);
-                    hero.levelUp();
+                    giveHeroExperience(hero, 30);
                     heroRepository.saveAndFlush(hero);
                 }
             }
+        }*/
+    }
+
+    public void processAction(MissionDTO missionDTO) {
+        Mission mission = (Mission) request.getSession().getAttribute("mission");
+        Hero hero = (Hero) request.getSession().getAttribute("hero");
+        if (missionDTO.getSelectedAction().compareTo("Up") == 0) {
+            if (dirIsMonster("Up", mission.getMap(), mission.getWidth())) {
+                mission.setMonster(true);
+                mission.setMonsterLocation(missionDTO.getSelectedAction());
+            }
+            else {
+                moveHero("Up", mission.getMap(), mission.getWidth());
+                if (heroIsOnBorder("Up", mission.getMap(), mission.getWidth())) {
+                    mission.setWin(true);
+                    giveHeroExperience(hero, 30);
+                    heroRepository.saveAndFlush(hero);
+                    return;
+                }
+            }
+
+        }
+        if (missionDTO.getSelectedAction().compareTo("Down") == 0) {
+            if (dirIsMonster("Down", mission.getMap(), mission.getWidth())) {
+                mission.setMonster(true);
+                mission.setMonsterLocation(missionDTO.getSelectedAction());
+            }
+            else {
+                moveHero("Down", mission.getMap(), mission.getWidth());
+                if (heroIsOnBorder("Down", mission.getMap(), mission.getWidth())) {
+                    mission.setWin(true);
+                    giveHeroExperience(hero, 30);
+                    heroRepository.saveAndFlush(hero);
+                    return;
+                }
+            }
+
+        }
+        if (missionDTO.getSelectedAction().compareTo("Left") == 0) {
+            if (dirIsMonster("Left", mission.getMap(), mission.getWidth())) {
+                mission.setMonster(true);
+                mission.setMonsterLocation(missionDTO.getSelectedAction());
+            }
+            else {
+                moveHero("Left", mission.getMap(), mission.getWidth());
+                if (heroIsOnBorder("Left", mission.getMap(), mission.getWidth())) {
+                    mission.setWin(true);
+                    giveHeroExperience(hero, 30);
+                    heroRepository.saveAndFlush(hero);
+                    return;
+                }
+            }
+
+        }
+        if (missionDTO.getSelectedAction().compareTo("Right") == 0) {
+            if (dirIsMonster("Right", mission.getMap(), mission.getWidth())) {
+                mission.setMonster(true);
+                mission.setMonsterLocation(missionDTO.getSelectedAction());
+            }
+            else {
+                moveHero("Right", mission.getMap(), mission.getWidth());
+                if (heroIsOnBorder("Right", mission.getMap(), mission.getWidth())) {
+                    mission.setWin(true);
+                    giveHeroExperience(hero, 30);
+                    heroRepository.saveAndFlush(hero);
+                    return;
+                }
+            }
+
         }
     }
 
@@ -156,6 +272,15 @@ public class MissionService {
                 System.out.print(map[i][j] +" ");
             }
             System.out.println();
+        }
+    }
+
+    public void giveHeroExperience(Hero hero, int value) {
+        if (hero.getExperience() < 100)
+            hero.setExperience(hero.getExperience() + value);
+        if (hero.getExperience() >= 100) {
+            hero.setExperience(hero.getExperience() - 100);
+            hero.levelUp();
         }
     }
 
@@ -174,18 +299,9 @@ public class MissionService {
                                     hero.setDeath(true);
                                     hero.setHealth(0);
                                 }
-                                else {
-                                    if (hero.getExperience() < 100)
-                                        hero.setExperience(hero.getExperience() + 10);
-                                    if (hero.getExperience() == 100) {
-                                        hero.setExperience(0);
-                                        hero.levelUp();
-                                    }
-
+                                else {//TODO :You get artifacts when you kill a monster with random coefficient. When you find artifact:keep or drop. Only one artifact type can be kept.
+                                    giveHeroExperience(hero, 10);
                                 }
-
-                                    //get artifact with random coefficient
-                                    //get experience
                             }
                         }
                     }
@@ -195,34 +311,20 @@ public class MissionService {
         else if (dir.compareTo("Down") == 0) {
             System.out.println(0);
             for (int i = 0; i < width; i++) {
-                System.out.println(1);
                 for (int j = 0; j < width; j++) {
-                    System.out.println(2);
                     if (map[i][j] == 2) {
-                        System.out.println(3);
                         for (Villain v : villains) {
-                            System.out.println(4);
                             if (v.getIy() == i + 1 && v.getJx() == j) {
-                                System.out.println(5);
                                 while (hero.getHealth() > 0 && v.getHealth() > 0) {
-                                    System.out.println(6);
                                     v.receiveDamage(hero.getDamage());
-                                    System.out.println(7);
                                     hero.receiveDamage(v.getDamage());
-                                    System.out.println(8);
                                 }
-                                System.out.println(9);
                                 if (hero.getHealth() <= 0) {
                                     hero.setDeath(true);
                                     hero.setHealth(0);
                                 }
                                 else {
-                                    if (hero.getExperience() < 100)
-                                        hero.setExperience(hero.getExperience() + 10);
-                                    if (hero.getExperience() == 100) {
-                                        hero.setExperience(0);
-                                        hero.levelUp();
-                                    }
+                                    giveHeroExperience(hero, 10);
                                 }
                             }
 
@@ -244,12 +346,7 @@ public class MissionService {
                                 if (hero.getHealth() < 0)
                                     hero.setDeath(true);
                                 else {
-                                    if (hero.getExperience() < 100)
-                                        hero.setExperience(hero.getExperience() + 10);
-                                    if (hero.getExperience() == 100) {
-                                        hero.setExperience(0);
-                                        hero.levelUp();
-                                    }
+                                    giveHeroExperience(hero, 10);
                                 }
                             }
                         }
@@ -270,12 +367,7 @@ public class MissionService {
                                 if (hero.getHealth() < 0)
                                     hero.setDeath(true);
                                 else {
-                                    if (hero.getExperience() < 100)
-                                        hero.setExperience(hero.getExperience() + 10);
-                                    if (hero.getExperience() == 100) {
-                                        hero.setExperience(0);
-                                        hero.levelUp();
-                                    }
+                                    giveHeroExperience(hero, 10);
                                 }
                             }
                         }

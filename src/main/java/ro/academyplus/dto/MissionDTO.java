@@ -1,9 +1,5 @@
 package ro.academyplus.dto;
 
-
-import ro.academyplus.model.characters.Hero;
-import ro.academyplus.model.characters.Villain;
-
 import java.util.List;
 
 /**
@@ -12,6 +8,8 @@ import java.util.List;
 public class MissionDTO {
     public List<String> actions;
     public String selectedAction;
+    public List<String> fightActions;
+    public String selectedFightAction;
 
     public List<String> getActions() {
         return actions;
@@ -28,4 +26,21 @@ public class MissionDTO {
     public void setSelectedAction(String selectedAction) {
         this.selectedAction = selectedAction;
     }
+
+    public List<String> getFightActions() {
+        return fightActions;
+    }
+
+    public void setFightActions(List<String> fightActions) {
+        this.fightActions = fightActions;
+    }
+
+    public String getSelectedFightAction() {
+        return selectedFightAction;
+    }
+
+    public void setSelectedFightAction(String selectedFightAction) {
+        this.selectedFightAction = selectedFightAction;
+    }
+
 }

@@ -19,12 +19,14 @@ public class Mission {
     private List<Villain> villains = new ArrayList<Villain>();
     private int[][] map;
     boolean win;
+    boolean monster;
+    String monsterLocation;
 
     public Mission(int maplevel) {
         this.maplevel = maplevel;
         this.width = 10 * maplevel;
         this.height = 10 * maplevel;
-        int monstersNumber = 300;//randInt(10, 15 * maplevel);
+        int monstersNumber = randInt(10 * maplevel, 15 * maplevel);
         for (int i = 0; i < monstersNumber; i++) {
             if (i % 4 == 0) {
                 DarkMage darkMage = new DarkMage("DarkMage" + i, maplevel);
@@ -43,7 +45,7 @@ public class Mission {
                 this.villains.add(necromancer);
             }
         }
-        this.map = new int[10 * maplevel + 1][10 * maplevel + 1];
+        this.map = new int[10 * maplevel][10 * maplevel];
         //put hero on map center; (2)
         map[10 * maplevel / 2 - 1][10 * maplevel / 2 - 1] = 2;
         //put villains random on map (1)
@@ -111,5 +113,21 @@ public class Mission {
 
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    public boolean isMonster() {
+        return monster;
+    }
+
+    public void setMonster(boolean monster) {
+        this.monster = monster;
+    }
+
+    public String getMonsterLocation() {
+        return monsterLocation;
+    }
+
+    public void setMonsterLocation(String monsterLocation) {
+        this.monsterLocation = monsterLocation;
     }
 }

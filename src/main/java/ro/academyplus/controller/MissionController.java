@@ -13,7 +13,6 @@ import ro.academyplus.model.characters.Hero;
 import ro.academyplus.service.MissionService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +33,7 @@ public class MissionController {
         Mission mission = (Mission) request.getSession().getAttribute("mission");
         model.addAttribute("map", mission.getMap());
         model.addAttribute("win", mission.isWin());
+        model.addAttribute("monster", mission.isMonster());
 
         MissionDTO missionDTO = new MissionDTO();
         List<String> actions = new ArrayList<String>();
@@ -42,19 +42,22 @@ public class MissionController {
         actions.add("Left");
         actions.add("Right");
         missionDTO.setActions(actions);
+        List<String> fightActions = new ArrayList<String>();
+        fightActions.add("Fight");
+        fightActions.add("Run");
+        missionDTO.setFightActions(fightActions);
         model.addAttribute("missiondto", missionDTO);
-
         return "mission";
     }
 
     @RequestMapping(value = "/mission", method = RequestMethod.POST)
     public String updateMissionPage(@ModelAttribute(value = "missiondto") @Valid MissionDTO missionDTO,
-                           BindingResult bindingResult) {
+                                    BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.out.println("error");
             return "members";
         }
-        missionService.updateMission(missionDTO);
+        missionService.playMission(missionDTO);
         return "redirect:mission";
     }
 }

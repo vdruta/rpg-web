@@ -2,15 +2,15 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
     <title>Mission ON!</title>
 
-    <link rel="stylesheet" href="demo.css" />
-    <link rel="stylesheet" href="header-login-signup.css" />
-    <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="demo.css"/>
+    <link rel="stylesheet" href="header-login-signup.css"/>
+    <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'/>
 </head>
 
 <body>
@@ -19,7 +19,7 @@
         <h1><a href="/">Bloody<span>Meadow</span></a></h1>
         <nav>
             <a href="/">Home</a>
-            <a href="/members"  class="selected">Members</a>
+            <a href="/members" class="selected">Members</a>
         </nav>
         <ul>
             <li><a href="/logout">Log Out</a></li>
@@ -32,7 +32,8 @@
     <div class="form-group">
         <p th:text="${hero.name}"/>
         <div class="progress" style="width: 50%; margin-left:25%;">
-            <div class="progress-bar" role="progressbar" th:attr="aria-valuenow=${hero.experience}" aria-valuemin="0" aria-valuemax="100" th:style="'width: ' + ${hero.experience} + '%;'">
+            <div class="progress-bar" role="progressbar" th:attr="aria-valuenow=${hero.experience}" aria-valuemin="0"
+                 aria-valuemax="100" th:style="'width: ' + ${hero.experience} + '%;'">
                 <span th:text="${hero.experience}"/>
             </div>
         </div>
@@ -50,24 +51,38 @@
 
     <div th:if="${win} == false and ${hero.death} == false">
 
-    <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post" allign="middle">
-        <div class="col-lg-4">
-            <div class="form-group">
-                <select th:field="*{selectedAction}">
-                    <option th:each="entry:*{actions}" th:value="${entry}" th:text="${entry}">Up</option>
-                </select>
-            </div>
-            <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
+        <div th:if="${monster} == false">
+            <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post" allign="middle">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <select th:field="*{selectedAction}">
+                            <option th:each="entry:*{actions}" th:value="${entry}" th:text="${entry}">Up</option>
+                        </select>
+                    </div>
+                    <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
+                </div>
+            </form>
         </div>
-    </form>
+        <div th:if="${monster} == true">
+            <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post" allign="middle">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <select th:field="*{selectedFightAction}">
+                            <option th:each="entry:*{fightActions}" th:value="${entry}" th:text="${entry}">Up</option>
+                        </select>
+                    </div>
+                    <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
+                </div>
+            </form>
+        </div>
+        <p>
+            <table class="table table-bordered" style="width: 50%; margin-left:25%;">
+                <tr th:each="i: ${map}">
+                    <td style="background-color:rgba(100, 100, 100, 0.5);" th:each="j: ${i}" th:text="${j}"></td>
 
-    <table class="table table-bordered" style="width: 50%; margin-left:25%;">
-        <tr th:each="i: ${map}">
-            <td style="background-color:rgba(100, 100, 100, 0.5);" th:each="j: ${i}" th:text="${j}" ></td>
-
-        </tr>
-    </table>
-
+                </tr>
+            </table>
+        </p>
     </div>
 
     <div th:if="${win} == true">

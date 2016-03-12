@@ -86,11 +86,25 @@ public class Hero implements ManageCharacter {
         return inventoryCount;
     }
 
-    public void levelUp(){
+    public void levelUp(){ //TODO With every level up you get life, defense, attack, depending on hero type.
         level++;
         inventorySize++;
-        health += health * level * 1 / 10;
-        damage += damage * level * 1 / 10;
+        if (this instanceof Elf) {
+            health += health * level * 1 / 10;
+            damage += damage * level * 1 / 10;
+        }
+        if (this instanceof Knight) {
+            health += health * level * 1 / 10;
+            damage += damage * level * 1 / 10;
+        }
+        if (this instanceof Mage) {
+            health += health * level * 1 / 10;
+            damage += damage * level * 1 / 10;
+        }
+        if (this instanceof Orc) {
+            health += health * level * 1 / 10;
+            damage += damage * level * 1 / 10;
+        }
     }
 
     public void addArtefact (Artefact artefact) throws Exception {

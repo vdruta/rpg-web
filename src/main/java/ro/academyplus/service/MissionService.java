@@ -1,13 +1,10 @@
 package ro.academyplus.service;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ro.academyplus.dto.MissionDTO;
 import ro.academyplus.model.Mission;
 import ro.academyplus.model.artefacts.*;
-import ro.academyplus.model.characters.DarkMage;
-import ro.academyplus.model.characters.Devil;
 import ro.academyplus.model.characters.Hero;
 import ro.academyplus.model.characters.Villain;
 import ro.academyplus.repository.HeroRepository;
@@ -55,7 +52,6 @@ public class MissionService {
                         mission.setWin(true);
                         giveHeroExperience(hero, 30);
                         heroRepository.saveAndFlush(hero);
-                        return ;
                     }
                 }
                 else {
@@ -64,7 +60,6 @@ public class MissionService {
             }
             else {
                 mission.setMonster(false);
-                return;
             }
         }
         else if (missionDTO.getSelectedFightAction().compareTo("Fight") == 0) {
@@ -76,134 +71,12 @@ public class MissionService {
                     mission.setWin(true);
                     giveHeroExperience(hero, 30);
                     heroRepository.saveAndFlush(hero);
-                    return ;
                 }
             }
             else {
                 hero.setDeath(true);
             }
         }
-        /*
-        if (missionDTO.getSelectedAction().compareTo("Up") == 0) {
-                if (dirIsMonster("Up", mission.getMap(), mission.getWidth())) {
-                    if (new Random().nextBoolean()) {
-                        fight("Up", hero, mission.getMap(), mission.getWidth(), mission.getVillains());
-                        if (hero.getHealth() > 0) {
-                            moveHero("Up", mission.getMap(), mission.getWidth());
-                            if (heroIsOnBorder("Up", mission.getMap(), mission.getWidth())) {
-                                mission.setWin(true);
-                                giveHeroExperience(hero, 30);
-                                heroRepository.saveAndFlush(hero);
-                                return ;
-                            }
-                        }
-                        else {
-                            hero.setDeath(true);
-                        }
-                    }
-                    else {
-                        System.out.println("I can run, ha ha ha :)");
-                        return ;
-                    }
-                    printMap(mission.getMap(), mission.getWidth());
-                }
-                else {
-                    moveHero("Up", mission.getMap(), mission.getWidth());
-                    if (heroIsOnBorder("Up", mission.getMap(), mission.getWidth())) {
-                        mission.setWin(true);
-                        giveHeroExperience(hero, 30);
-                        heroRepository.saveAndFlush(hero);
-                        return ;
-                    }
-                }
-        }
-        if (missionDTO.getSelectedAction().compareTo("Down") == 0) {
-            if (dirIsMonster("Down", mission.getMap(), mission.getWidth())) {
-                if (new Random().nextBoolean()) {
-                    fight("Down", hero, mission.getMap(), mission.getWidth(), mission.getVillains());
-                    if (hero.getHealth() > 0) {
-                        moveHero("Down", mission.getMap(), mission.getWidth());
-                        if (heroIsOnBorder("Down", mission.getMap(), mission.getWidth())) {
-                            mission.setWin(true);
-                            giveHeroExperience(hero, 30);
-                            heroRepository.saveAndFlush(hero);
-                        }
-                    }
-                    else
-                        hero.setDeath(true);
-                }
-                else {
-                    System.out.println("I can run, ha ha ha :)");
-                    return ;
-                }
-            }
-            else {
-                moveHero("Down", mission.getMap(), mission.getWidth());
-                if (heroIsOnBorder("Down", mission.getMap(), mission.getWidth())) {
-                    mission.setWin(true);
-                    giveHeroExperience(hero, 30);
-                    heroRepository.saveAndFlush(hero);
-                }
-            }
-        }
-        if (missionDTO.getSelectedAction().compareTo("Left") == 0) {
-            if (dirIsMonster("Left", mission.getMap(), mission.getWidth())) {
-                if (new Random().nextBoolean()) {
-                    fight("Left", hero, mission.getMap(), mission.getWidth(), mission.getVillains());
-                    if (hero.getHealth() > 0) {
-                        moveHero("Left", mission.getMap(), mission.getWidth());
-                        if (heroIsOnBorder("Left", mission.getMap(), mission.getWidth())) {
-                            mission.setWin(true);
-                            giveHeroExperience(hero, 30);
-                            heroRepository.saveAndFlush(hero);
-                        }
-                    }
-                    else
-                        hero.setDeath(true);
-                }
-                else {
-                    System.out.println("I can run, ha ha ha :)");
-                    return ;
-                }
-            }
-            else {
-                moveHero("Left", mission.getMap(), mission.getWidth());
-                if (heroIsOnBorder("Left", mission.getMap(), mission.getWidth())) {
-                    mission.setWin(true);
-                    giveHeroExperience(hero, 30);
-                    heroRepository.saveAndFlush(hero);
-                }
-            }
-        }
-        if (missionDTO.getSelectedAction().compareTo("Right") == 0) {
-            if (dirIsMonster("Right", mission.getMap(), mission.getWidth())) {
-                if (new Random().nextBoolean()) {
-                    fight("Right", hero, mission.getMap(), mission.getWidth(), mission.getVillains());
-                    if (hero.getHealth() > 0) {
-                        moveHero("Right", mission.getMap(), mission.getWidth());
-                        if (heroIsOnBorder("Right", mission.getMap(), mission.getWidth())) {
-                            mission.setWin(true);
-                            giveHeroExperience(hero, 30);
-                            heroRepository.saveAndFlush(hero);
-                        }
-                    }
-                    else
-                        hero.setDeath(true);
-                }
-                else {
-                    System.out.println("I can run, ha ha ha :)");
-                    return;
-                }
-            }
-            else {
-                moveHero("Right", mission.getMap(), mission.getWidth());
-                if (heroIsOnBorder("Right", mission.getMap(), mission.getWidth())) {
-                    mission.setWin(true);
-                    giveHeroExperience(hero, 30);
-                    heroRepository.saveAndFlush(hero);
-                }
-            }
-        }*/
     }
 
     public void processAction(MissionDTO missionDTO) {
@@ -268,7 +141,6 @@ public class MissionService {
                     mission.setWin(true);
                     giveHeroExperience(hero, 30);
                     heroRepository.saveAndFlush(hero);
-                    return;
                 }
             }
 
@@ -329,7 +201,7 @@ public class MissionService {
                                 else {//TODO :You get artifacts when you kill a monster with random coefficient. When you find artifact:keep or drop. Only one artifact type can be kept.
                                     giveHeroExperience(hero, 10);
                                     mission.setNewArtefact(true);
-                                    mission.setLatestArtefact(getNewRandomArtefact());
+                                    mission.setLatestArtefact(getNewRandomArtefact(mission.getWidth()));
                                 }
                             }
                         }
@@ -355,7 +227,7 @@ public class MissionService {
                                 else {
                                     giveHeroExperience(hero, 10);
                                     mission.setNewArtefact(true);
-                                    mission.setLatestArtefact(getNewRandomArtefact());
+                                    mission.setLatestArtefact(getNewRandomArtefact(mission.getWidth()));
                                 }
                             }
 
@@ -379,7 +251,7 @@ public class MissionService {
                                 else {
                                     giveHeroExperience(hero, 10);
                                     mission.setNewArtefact(true);
-                                    mission.setLatestArtefact(getNewRandomArtefact());
+                                    mission.setLatestArtefact(getNewRandomArtefact(mission.getWidth()));
                                 }
                             }
                         }
@@ -402,7 +274,7 @@ public class MissionService {
                                 else {
                                     giveHeroExperience(hero, 10);
                                     mission.setNewArtefact(true);
-                                    mission.setLatestArtefact(getNewRandomArtefact());
+                                    mission.setLatestArtefact(getNewRandomArtefact(mission.getWidth()));
                                 }
                             }
                         }
@@ -412,8 +284,8 @@ public class MissionService {
         }
     }
 
-    private Artefact getNewRandomArtefact() {
-        int i = Mission.randInt(0, 100);
+    private Artefact getNewRandomArtefact(int mapWidth) {
+        int i = Mission.randInt(0, mapWidth);
 
         if (i % 6 == 0)
             return new Armor("Armor"+i, i);

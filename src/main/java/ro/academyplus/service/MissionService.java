@@ -194,9 +194,10 @@ public class MissionService {
                                     v.receiveDamage(hero.getDamage());
                                     hero.receiveDamage(v.getDamage());
                                 }
-                                if (hero.getHealth() <= 0) { //TODO :Reset hero?
+                                if (hero.getHealth() <= 0) { //TODO :Reset hero? FIXED: reset experience to what it was before
                                     hero.setDeath(true);
                                     hero.setHealth(0);
+                                    hero.setExperience(heroRepository.findOne(hero.getId()).getExperience());
                                 }
                                 else {//TODO :You get artifacts when you kill a monster with random coefficient. When you find artifact:keep or drop. Only one artifact type can be kept.
                                     giveHeroExperience(hero, 10);
@@ -223,6 +224,7 @@ public class MissionService {
                                 if (hero.getHealth() <= 0) {
                                     hero.setDeath(true);
                                     hero.setHealth(0);
+                                    hero.setExperience(heroRepository.findOne(hero.getId()).getExperience());
                                 }
                                 else {
                                     giveHeroExperience(hero, 10);
@@ -246,8 +248,11 @@ public class MissionService {
                                     v.receiveDamage(hero.getDamage());
                                     hero.receiveDamage(v.getDamage());
                                 }
-                                if (hero.getHealth() < 0)
+                                if (hero.getHealth() < 0) {
                                     hero.setDeath(true);
+                                    hero.setHealth(0);
+                                    hero.setExperience(heroRepository.findOne(hero.getId()).getExperience());
+                                }
                                 else {
                                     giveHeroExperience(hero, 10);
                                     mission.setNewArtefact(true);
@@ -269,8 +274,11 @@ public class MissionService {
                                     v.receiveDamage(hero.getDamage());
                                     hero.receiveDamage(v.getDamage());
                                 }
-                                if (hero.getHealth() < 0)
+                                if (hero.getHealth() < 0) {
                                     hero.setDeath(true);
+                                    hero.setHealth(0);
+                                    hero.setExperience(heroRepository.findOne(hero.getId()).getExperience());
+                                }
                                 else {
                                     giveHeroExperience(hero, 10);
                                     mission.setNewArtefact(true);
@@ -289,15 +297,15 @@ public class MissionService {
 
         if (i % 6 == 0)
             return new Armor("Armor"+i, i);
-        if (i % 6 == 1)
+        else if (i % 6 == 1)
             return new Axe("Axe"+i, i);
-        if (i % 6 == 2)
+        else if (i % 6 == 2)
             return new Bow("Bow"+i, i);
-        if (i % 6 == 3)
+        else if (i % 6 == 3)
             return new Helmet("Helmet"+i, i);
-        if (i % 6 == 4)
+        else if (i % 6 == 4)
             return new Staff("Staff"+i, i);
-        if (i % 6 == 5)
+        else if (i % 6 == 5)
             return new Sword("Sword"+i, i);
         return null;
     }

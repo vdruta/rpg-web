@@ -51,10 +51,15 @@
 
     <div th:if="${win} == false and ${hero.death} == false">
 
+        <div th:if="${newartefact} == false">
         <div th:if="${monster} == false">
+
             <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post" allign="middle">
                 <div class="col-lg-4">
                     <div class="form-group">
+                        <div th:if="${inventoryAlreadyContainsArtefact} == true">
+                            <p>Inventory already contains this artefact type</p>
+                        </div>
                         <select th:field="*{selectedAction}">
                             <option th:each="entry:*{actions}" th:value="${entry}" th:text="${entry}">Up</option>
                         </select>
@@ -68,7 +73,23 @@
                 <div class="col-lg-4">
                     <div class="form-group">
                         <select th:field="*{selectedFightAction}">
-                            <option th:each="entry:*{fightActions}" th:value="${entry}" th:text="${entry}">Up</option>
+                            <option th:each="entry:*{fightActions}" th:value="${entry}" th:text="${entry}">Fight</option>
+                        </select>
+                    </div>
+                    <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
+                </div>
+            </form>
+        </div>
+        </div>
+        <div th:if="${newartefact} == true">
+
+            <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post" allign="middle">
+                <div class="col-lg-4">
+                    <div class="form-group">
+                        <p>You Found:</p>
+                        <p th:text="${latestartefactname}"></p>
+                        <select th:field="*{selectedgetOrDropAction}">
+                            <option th:each="entry:*{getOrDropActions}" th:value="${entry}" th:text="${entry}">Keep</option>
                         </select>
                     </div>
                     <button type="submit" value="Submit" class="btn btn-danger">Submit</button>

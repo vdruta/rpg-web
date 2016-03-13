@@ -14,6 +14,7 @@ public class Axe extends Artefact {
     public Axe(String name, int damage){
         this.setName(name);
         this.damage = damage;
+        this.artefactType = artefactType.AXE;
     }
 
     public int getDamage(){

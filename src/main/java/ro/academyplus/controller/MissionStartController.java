@@ -29,5 +29,4 @@ public class MissionStartController {
         request.getSession().setAttribute("mission", mission);
         return "redirect:mission";
     }
-
 }

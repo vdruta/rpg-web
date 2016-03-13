@@ -14,6 +14,7 @@ public class Bow extends Artefact{
     public Bow(String name, int damage) {
         this.setName(name);
         this.damage = damage;
+        this.artefactType = artefactType.BOW;
     }
 
     public int getDamage() {

@@ -14,6 +14,7 @@ public class Sword extends Artefact {
     public Sword(String name, int damage) {
         this.setName(name);
         this.damage = damage;
+        this.artefactType = artefactType.SWORD;
     }
 
     public int getDamage() {

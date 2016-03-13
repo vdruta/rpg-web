@@ -34,6 +34,9 @@ public class MissionController {
         model.addAttribute("map", mission.getMap());
         model.addAttribute("win", mission.isWin());
         model.addAttribute("monster", mission.isMonster());
+        model.addAttribute("newartefact", mission.isNewArtefact());
+        model.addAttribute("inventoryAlreadyContainsArtefact", mission.isInventoryAlreadyContainsArtefact());
+        model.addAttribute("latestartefactname", mission.getLatestArtefact().getName());
 
         MissionDTO missionDTO = new MissionDTO();
         List<String> actions = new ArrayList<String>();
@@ -46,6 +49,10 @@ public class MissionController {
         fightActions.add("Fight");
         fightActions.add("Run");
         missionDTO.setFightActions(fightActions);
+        List<String> keepOrDropActions = new ArrayList<String>();
+        keepOrDropActions.add("Keep");
+        keepOrDropActions.add("Drop");
+        missionDTO.setGetOrDropActions(keepOrDropActions);
         model.addAttribute("missiondto", missionDTO);
         return "mission";
     }

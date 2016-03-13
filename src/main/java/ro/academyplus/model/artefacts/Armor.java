@@ -14,6 +14,7 @@ public class Armor extends Artefact {
     public Armor(String name, int health){
         this.setName(name);
         this.health = health;
+        this.artefactType = artefactType.ARMOR;
     }
 
     public int getHealth(){

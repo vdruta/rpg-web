@@ -1,6 +1,7 @@
 package ro.academyplus.model;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import ro.academyplus.model.artefacts.Artefact;
 import ro.academyplus.model.characters.*;
 
 import java.util.ArrayList;
@@ -21,6 +22,9 @@ public class Mission {
     boolean win;
     boolean monster;
     String monsterLocation;
+    boolean newArtefact;
+    private Artefact latestArtefact = new Artefact();
+    private boolean inventoryAlreadyContainsArtefact;
 
     public Mission(int maplevel) {
         this.maplevel = maplevel;
@@ -130,4 +134,30 @@ public class Mission {
     public void setMonsterLocation(String monsterLocation) {
         this.monsterLocation = monsterLocation;
     }
+
+    public boolean isNewArtefact() {
+        return newArtefact;
+    }
+
+    public void setNewArtefact(boolean newArtefact) {
+        this.newArtefact = newArtefact;
+    }
+
+    public Artefact getLatestArtefact() {
+        return latestArtefact;
+    }
+
+    public void setLatestArtefact(Artefact latestArtefact) {
+        this.latestArtefact = latestArtefact;
+    }
+
+    public boolean isInventoryAlreadyContainsArtefact() {
+        return inventoryAlreadyContainsArtefact;
+    }
+
+    public void setInventoryAlreadyContainsArtefact(boolean inventoryAlreadyContainsArtefact) {
+        this.inventoryAlreadyContainsArtefact = inventoryAlreadyContainsArtefact;
+    }
+
+
 }

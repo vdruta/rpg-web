@@ -14,6 +14,7 @@ public class Staff extends Artefact{
     public Staff(String name, int damage) {
         this.setName(name);
         this.damage = damage;
+        this.artefactType = artefactType.STAFF;
     }
 
     public int getDamage() {

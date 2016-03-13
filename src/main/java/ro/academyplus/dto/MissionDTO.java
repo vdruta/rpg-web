@@ -10,6 +10,24 @@ public class MissionDTO {
     public String selectedAction;
     public List<String> fightActions;
     public String selectedFightAction;
+    public List<String> getOrDropActions;
+    public String selectedgetOrDropAction;
+
+    public List<String> getGetOrDropActions() {
+        return getOrDropActions;
+    }
+
+    public void setGetOrDropActions(List<String> getOrDropActions) {
+        this.getOrDropActions = getOrDropActions;
+    }
+
+    public String getSelectedgetOrDropAction() {
+        return selectedgetOrDropAction;
+    }
+
+    public void setSelectedgetOrDropAction(String selectedgetOrDropAction) {
+        this.selectedgetOrDropAction = selectedgetOrDropAction;
+    }
 
     public List<String> getActions() {
         return actions;

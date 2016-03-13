@@ -8,11 +8,12 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "ARTEFACT")
-public abstract class Artefact implements Serializable{
+public class Artefact implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private String name;
+    protected long id;
+    protected String name;
+    protected ArtefactType artefactType;
 
     protected void setName(String name) {
         this.name = name;
@@ -20,5 +21,27 @@ public abstract class Artefact implements Serializable{
 
     public String getName(){
         return name;
+    }
+
+    public ArtefactType getArtefactType() {
+        return artefactType;
+    }
+
+    public void setArtefactType(ArtefactType artefactType) {
+        this.artefactType = artefactType;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (this == obj)
+            return true;
+        if (obj instanceof Artefact) {
+            Artefact anotherArtefact = (Artefact) obj;
+            if (this.getArtefactType() == anotherArtefact.getArtefactType())
+                return true;
+        }
+        return false;
     }
 }

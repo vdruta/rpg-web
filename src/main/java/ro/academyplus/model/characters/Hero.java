@@ -25,10 +25,10 @@ public class Hero implements ManageCharacter {
     protected int level;
     protected int health;
     protected int damage;
-    @OneToMany(cascade = CascadeType.ALL)
-    protected List<Artefact> inventory ;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    protected List<Artefact> inventory;
     protected int inventoryCount;
-    protected int inventorySize = 3;
+    protected int inventorySize = 6;
     protected HeroType heroType;
     protected Date date;
     protected int experience;
@@ -112,6 +112,9 @@ public class Hero implements ManageCharacter {
         if (inventoryCount > inventorySize) {
             throw new Exception("Inventory is full. A hero can keep in the inventory max " + inventorySize + " artefacts");
         }
+        if (inventoryAlreadyContainsArtefactType(artefact)) {
+            throw new Exception("Inventory already contains this artefact type");
+        }
         if (artefact instanceof Armor) {
             this.inventory.add(artefact);
             addHealth(artefact);
@@ -136,6 +139,14 @@ public class Hero implements ManageCharacter {
             this.inventory.add(artefact);
             addDamage(artefact);
         }
+    }
+
+    private boolean inventoryAlreadyContainsArtefactType(Artefact artefact) {
+        for (Artefact art: inventory) {
+            if (art != null && art.equals(artefact))
+                return true;
+        }
+        return false;
     }
 
     public void printInventory() {

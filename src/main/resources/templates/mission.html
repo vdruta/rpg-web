@@ -43,6 +43,8 @@
         <span th:text="${hero.health}"/>
         <span>damage: </span>
         <span th:text="${hero.damage}"/>
+        <span>inventory: </span>
+        <span th:each="i: ${hero.inventory}" th:text="${i.name}"/>
         <div th:if="${hero.death} == true">
             <p>YOU LOST</p>
             <p><a href="/members" class="btn btn-danger">Go Back</a></p>

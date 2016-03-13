@@ -17,6 +17,9 @@ public class Armor extends Artefact {
         this.artefactType = artefactType.ARMOR;
     }
 
+    public Armor(){
+
+    }
     public int getHealth(){
         return health;
     }

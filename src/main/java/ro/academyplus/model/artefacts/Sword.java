@@ -17,6 +17,10 @@ public class Sword extends Artefact {
         this.artefactType = artefactType.SWORD;
     }
 
+    public Sword() {
+
+    }
+
     public int getDamage() {
         return damage;
     }

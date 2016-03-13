@@ -17,6 +17,9 @@ public class Staff extends Artefact{
         this.artefactType = artefactType.STAFF;
     }
 
+    public Staff(){
+
+    }
     public int getDamage() {
         return damage;
     }

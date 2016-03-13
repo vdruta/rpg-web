@@ -17,6 +17,9 @@ public class Axe extends Artefact {
         this.artefactType = artefactType.AXE;
     }
 
+    public Axe(){
+
+    }
     public int getDamage(){
         return damage;
     }

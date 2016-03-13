@@ -17,6 +17,10 @@ public class Bow extends Artefact{
         this.artefactType = artefactType.BOW;
     }
 
+    public Bow(){
+
+    }
+
     public int getDamage() {
         return damage;
     }

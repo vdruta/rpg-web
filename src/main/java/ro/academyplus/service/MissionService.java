@@ -494,7 +494,7 @@ public class MissionService {
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
                     if (map[i][j] == 2) {
-                        if (i - 1 > 0 && map[i - 1][j] == 1)
+                        if (i - 1 >= 0 && map[i - 1][j] == 1)
                             return true;
                     }
                 }
@@ -514,7 +514,7 @@ public class MissionService {
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
                     if (map[i][j] == 2) {
-                        if (j - 1 > 0 && map[i][j - 1] == 1)
+                        if (j - 1 >= 0 && map[i][j - 1] == 1)
                             return true;
                     }
                 }

@@ -25,12 +25,13 @@ public class Mission {
     boolean newArtefact;
     private Artefact latestArtefact = new Artefact();
     private boolean inventoryAlreadyContainsArtefact;
+    private boolean monsterOnLastLocation;
 
     public Mission(int maplevel) {
         this.maplevel = maplevel;
-        this.width = 10 * maplevel;
-        this.height = 10 * maplevel;
-        int monstersNumber = randInt(10 * maplevel, 15 * maplevel);
+        this.width = 3 + 2 * maplevel;
+        this.height = 3 + 2 * maplevel;
+        int monstersNumber = randInt(width * width / 3, width * width / 2);
         for (int i = 0; i < monstersNumber; i++) {
             if (i % 4 == 0) {
                 DarkMage darkMage = new DarkMage("DarkMage" + i, maplevel);
@@ -49,11 +50,11 @@ public class Mission {
                 this.villains.add(necromancer);
             }
         }
-        this.map = new int[10 * maplevel][10 * maplevel];
+        this.map = new int[width][width];
         //put hero on map center; (2)
-        map[10 * maplevel / 2 - 1][10 * maplevel / 2 - 1] = 2;
+        map[width / 2][width / 2] = 2;
         //put villains random on map (1)
-        map = putVillainsOnMap(map, monstersNumber, 10*maplevel);
+        map = putVillainsOnMap(map, monstersNumber, width);
 
     }
 
@@ -159,5 +160,11 @@ public class Mission {
         this.inventoryAlreadyContainsArtefact = inventoryAlreadyContainsArtefact;
     }
 
+    public boolean isMonsterOnLastLocation() {
+        return monsterOnLastLocation;
+    }
 
+    public void setMonsterOnLastLocation(boolean monsterOnLastLocation) {
+        this.monsterOnLastLocation = monsterOnLastLocation;
+    }
 }

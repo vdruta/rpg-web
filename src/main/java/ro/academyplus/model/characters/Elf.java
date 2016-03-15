@@ -8,10 +8,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "ELF")
 public class Elf extends Hero{
+
     public Elf(String name){
         super(name);
-        health = 1200;
-        damage = 70;
+        health = 1600;
+        damage = 90;
         heroType = heroType.ELF;
     }
 

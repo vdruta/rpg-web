@@ -9,10 +9,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "ORC")
 public class Orc extends Hero {
+
     public Orc(String name){
         super(name);
-        health = 1700;
-        damage = 30;
+        health = 1800;
+        damage = 80;
         heroType = HeroType.ORC;
     }
     public Orc(){}

@@ -10,7 +10,7 @@ import javax.persistence.Table;
 public class Necromancer extends Villain {
     public Necromancer(String name, int level){
         super(name, level);
-        health = 10 + level * 5;
-        damage = 7 + level * 5;
+        health = 100 + 100 * level / 10;
+        damage = 340 + 340 * level / 9;
     }
 }

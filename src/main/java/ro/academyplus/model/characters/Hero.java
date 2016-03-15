@@ -1,12 +1,7 @@
 package ro.academyplus.model.characters;
 
-
-import ro.academyplus.model.User;
 import ro.academyplus.model.artefacts.*;
-
 import javax.persistence.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,6 +28,16 @@ public class Hero implements ManageCharacter {
     protected Date date;
     protected int experience;
     protected boolean death;
+    protected int orcBaseDamage = 80;
+    protected int orcBaseHealth = 1800;
+    protected int mageBaseDamage = 100;
+    protected int mageBaseHealth = 1400;
+    protected int knightBaseDamage = 70;
+    protected int knightBaseHealth = 2000;
+    protected int elfBaseHealth = 1600;
+    protected int elfBaseDamage = 90;
+
+
 
     public Hero(String name) {
         this.name = name;
@@ -86,24 +91,24 @@ public class Hero implements ManageCharacter {
         return inventoryCount;
     }
 
-    public void levelUp(){ //TODO With every level up you get life, defense, attack, depending on hero type.
+    public void levelUp(){
         level++;
         inventorySize++;
         if (this instanceof Elf) {
-            health += health * level * 1 / 10;
-            damage += damage * level * 1 / 10;
+            health = elfBaseHealth + elfBaseHealth * level / 11;
+            damage = elfBaseDamage + elfBaseDamage * level / 12;
         }
         if (this instanceof Knight) {
-            health += health * level * 1 / 10;
-            damage += damage * level * 1 / 10;
+            health =  getKnightBaseHealth() + getKnightBaseHealth() * level / 15;
+            damage = getKnightBaseDamage() + getKnightBaseDamage() * level / 16;
         }
         if (this instanceof Mage) {
-            health += health * level * 1 / 10;
-            damage += damage * level * 1 / 10;
+            health = getMageBaseHealth() + getMageBaseHealth() * level / 9;
+            damage = getMageBaseDamage() + getMageBaseDamage() * level / 10;
         }
         if (this instanceof Orc) {
-            health += health * level * 1 / 10;
-            damage += damage * level * 1 / 10;
+            health = getOrcBaseHealth() + getOrcBaseHealth() * level / 13;
+            damage = getOrcBaseDamage() + getOrcBaseDamage() * level / 14;
         }
     }
 
@@ -248,4 +253,67 @@ public class Hero implements ManageCharacter {
         this.heroType = heroType;
     }
 
+    public int getOrcBaseDamage() {
+        return orcBaseDamage;
+    }
+
+    public void setOrcBaseDamage(int orcBaseDamage) {
+        this.orcBaseDamage = orcBaseDamage;
+    }
+
+    public int getOrcBaseHealth() {
+        return orcBaseHealth;
+    }
+
+    public void setOrcBaseHealth(int orcBaseHealth) {
+        this.orcBaseHealth = orcBaseHealth;
+    }
+
+    public int getMageBaseDamage() {
+        return mageBaseDamage;
+    }
+
+    public void setMageBaseDamage(int mageBaseDamage) {
+        this.mageBaseDamage = mageBaseDamage;
+    }
+
+    public int getMageBaseHealth() {
+        return mageBaseHealth;
+    }
+
+    public void setMageBaseHealth(int mageBaseHealth) {
+        this.mageBaseHealth = mageBaseHealth;
+    }
+
+    public int getKnightBaseDamage() {
+        return knightBaseDamage;
+    }
+
+    public void setKnightBaseDamage(int knightBaseDamage) {
+        this.knightBaseDamage = knightBaseDamage;
+    }
+
+    public int getKnightBaseHealth() {
+        return knightBaseHealth;
+    }
+
+    public void setKnightBaseHealth(int knightBaseHealth) {
+        this.knightBaseHealth = knightBaseHealth;
+    }
+
+    public int getElfBaseHealth() {
+        return elfBaseHealth;
+    }
+
+    public void setElfBaseHealth(int elfBaseHealth) {
+        this.elfBaseHealth = elfBaseHealth;
+    }
+
+    public int getElfBaseDamage() {
+        return elfBaseDamage;
+    }
+
+    public void setElfBaseDamage(int elfBaseDamage) {
+        this.elfBaseDamage = elfBaseDamage;
+    }
 }

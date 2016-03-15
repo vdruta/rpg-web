@@ -47,11 +47,10 @@ public class MissionService {
                 fight(mission.getMonsterLocation(), hero, mission.getMap(), mission.getWidth(), mission.getVillains());
                 if (hero.getHealth() > 0) {
                     mission.setMonster(false);
-                    moveHero(mission.getMonsterLocation(), mission.getMap(), mission.getWidth());
-                    if (heroIsOnBorder(mission.getMonsterLocation(), mission.getMap(), mission.getWidth())) {
-                        mission.setWin(true);
-                        giveHeroExperience(hero, 30);
-                        heroRepository.saveAndFlush(hero);
+                    moveHero(mission.getMonsterLocation(), mission.getMap(), mission.getWidth(), mission.isMonsterOnLastLocation());
+                    mission.setMonsterOnLastLocation(true);
+                    if (heroIsOnBorder(mission.getMap(), mission.getWidth())) {
+                        mission.setNewArtefact(true);
                     }
                 }
                 else {
@@ -66,11 +65,10 @@ public class MissionService {
             fight(mission.getMonsterLocation(), hero, mission.getMap(), mission.getWidth(), mission.getVillains());
             if (hero.getHealth() > 0) {
                 mission.setMonster(false);
-                moveHero(mission.getMonsterLocation(), mission.getMap(), mission.getWidth());
-                if (heroIsOnBorder(mission.getMonsterLocation(), mission.getMap(), mission.getWidth())) {
-                    mission.setWin(true);
-                    giveHeroExperience(hero, 30);
-                    heroRepository.saveAndFlush(hero);
+                moveHero(mission.getMonsterLocation(), mission.getMap(), mission.getWidth(), mission.isMonsterOnLastLocation());
+                mission.setMonsterOnLastLocation(true);
+                if (heroIsOnBorder(mission.getMap(), mission.getWidth())) {
+                    mission.setNewArtefact(true);
                 }
             }
             else {
@@ -88,15 +86,14 @@ public class MissionService {
                 mission.setMonsterLocation(missionDTO.getSelectedAction());
             }
             else {
-                moveHero("Up", mission.getMap(), mission.getWidth());
-                if (heroIsOnBorder("Up", mission.getMap(), mission.getWidth())) {
+                moveHero("Up", mission.getMap(), mission.getWidth(), mission.isMonsterOnLastLocation());
+                if (heroIsOnBorder(mission.getMap(), mission.getWidth())) {
                     mission.setWin(true);
                     giveHeroExperience(hero, 30);
                     heroRepository.saveAndFlush(hero);
                     return;
                 }
             }
-
         }
         if (missionDTO.getSelectedAction().compareTo("Down") == 0) {
             if (dirIsMonster("Down", mission.getMap(), mission.getWidth())) {
@@ -104,15 +101,14 @@ public class MissionService {
                 mission.setMonsterLocation(missionDTO.getSelectedAction());
             }
             else {
-                moveHero("Down", mission.getMap(), mission.getWidth());
-                if (heroIsOnBorder("Down", mission.getMap(), mission.getWidth())) {
+                moveHero("Down", mission.getMap(), mission.getWidth(), mission.isMonsterOnLastLocation());
+                if (heroIsOnBorder(mission.getMap(), mission.getWidth())) {
                     mission.setWin(true);
                     giveHeroExperience(hero, 30);
                     heroRepository.saveAndFlush(hero);
                     return;
                 }
             }
-
         }
         if (missionDTO.getSelectedAction().compareTo("Left") == 0) {
             if (dirIsMonster("Left", mission.getMap(), mission.getWidth())) {
@@ -120,15 +116,14 @@ public class MissionService {
                 mission.setMonsterLocation(missionDTO.getSelectedAction());
             }
             else {
-                moveHero("Left", mission.getMap(), mission.getWidth());
-                if (heroIsOnBorder("Left", mission.getMap(), mission.getWidth())) {
+                moveHero("Left", mission.getMap(), mission.getWidth(), mission.isMonsterOnLastLocation());
+                if (heroIsOnBorder(mission.getMap(), mission.getWidth())) {
                     mission.setWin(true);
                     giveHeroExperience(hero, 30);
                     heroRepository.saveAndFlush(hero);
                     return;
                 }
             }
-
         }
         if (missionDTO.getSelectedAction().compareTo("Right") == 0) {
             if (dirIsMonster("Right", mission.getMap(), mission.getWidth())) {
@@ -136,8 +131,8 @@ public class MissionService {
                 mission.setMonsterLocation(missionDTO.getSelectedAction());
             }
             else {
-                moveHero("Right", mission.getMap(), mission.getWidth());
-                if (heroIsOnBorder("Right", mission.getMap(), mission.getWidth())) {
+                moveHero("Right", mission.getMap(), mission.getWidth(), mission.isMonsterOnLastLocation());
+                if (heroIsOnBorder(mission.getMap(), mission.getWidth())) {
                     mission.setWin(true);
                     giveHeroExperience(hero, 30);
                     heroRepository.saveAndFlush(hero);
@@ -169,14 +164,25 @@ public class MissionService {
         Mission mission = (Mission) request.getSession().getAttribute("mission");
         Hero hero = (Hero) request.getSession().getAttribute("hero");
 
-        if (missionDTO.getSelectedgetOrDropAction().compareTo("Drop") == 0)
+        if (missionDTO.getSelectedgetOrDropAction().compareTo("Drop") == 0) {
             mission.setNewArtefact(false);
+            if (heroIsOnBorder(mission.getMap(), mission.getWidth())) {
+                mission.setWin(true);
+                giveHeroExperience(hero, 30);
+                heroRepository.saveAndFlush(hero);
+            }
+        }
         else if (missionDTO.getSelectedgetOrDropAction().compareTo("Keep") == 0) {
             mission.setNewArtefact(false);
             try {
                 hero.addArtefact(mission.getLatestArtefact());
             } catch (Exception e) { // TODO: 2016-03-13 Message to player: You already have one artefact type: sword, axe, bow, etc
                 mission.setInventoryAlreadyContainsArtefact(true);
+            }
+            if (heroIsOnBorder(mission.getMap(), mission.getWidth())) {
+                mission.setWin(true);
+                giveHeroExperience(hero, 30); //TODO reset hero to base level
+                heroRepository.saveAndFlush(hero);
             }
         }
     }
@@ -293,16 +299,16 @@ public class MissionService {
     }
 
     private Artefact getNewRandomArtefact(int mapWidth) {
-        int i = Mission.randInt(0, mapWidth);
+        int i = Mission.randInt(mapWidth - 5, mapWidth);
 
         if (i % 6 == 0)
-            return new Armor("Armor"+i, i);
+            return new Armor("Armor"+i, i * 20);
         else if (i % 6 == 1)
             return new Axe("Axe"+i, i);
         else if (i % 6 == 2)
             return new Bow("Bow"+i, i);
         else if (i % 6 == 3)
-            return new Helmet("Helmet"+i, i);
+            return new Helmet("Helmet"+i, i * 15);
         else if (i % 6 == 4)
             return new Staff("Staff"+i, i);
         else if (i % 6 == 5)
@@ -310,15 +316,32 @@ public class MissionService {
         return null;
     }
 
-    private void moveHero(String dir, int[][] map, int width) {
+    private void moveHero(String dir, int[][] map, int width, boolean monsterOnLastLocation) {
+        Mission mission = (Mission) request.getSession().getAttribute("mission");
+
         if (dir.compareTo("Up") == 0) {
-            System.out.println("move up");
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
-                    if (map[i][j] == 2) {
+                    if (map[i][j] == 2 || map[i][j] == 5) {
                         if (i - 1 >= 0){
-                            map[i -1][j] = 2;
-                            map[i][j] = 0;
+                            if (map[i][j] == 2) {
+                                if (map[i - 1][j] == 3)
+                                    map[i - 1][j] = 5;
+                                else
+                                    map[i - 1][j] = 2;
+                            }
+                            else if (map[i][j] == 5) {
+                                map[i - 1][j] = 2;
+                                map[i][j] = 3;
+                            }
+                            if (monsterOnLastLocation) {
+                                map[i][j] = 3;
+                                mission.setMonsterOnLastLocation(false);
+                            }
+                            else {
+                                if (map[i][j] != 3 && map[i][j] != 5)
+                                    map[i][j] = 4;
+                            }
                             return;
                         }
                     }
@@ -326,15 +349,28 @@ public class MissionService {
             }
         }
         else if (dir.compareTo("Down") == 0) {
-            System.out.println(1);
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
-                    if (map[i][j] == 2) {
-                        System.out.println(2);
+                    if (map[i][j] == 2 || map[i][j] == 5) {
                         if (i + 1 <= width){
-                            System.out.println(3);
-                            map[i + 1][j] = 2;
-                            map[i][j] = 0;
+                            if (map[i][j] == 2) {
+                                if (map[i + 1][j] == 3)
+                                    map[i + 1][j] = 5;
+                                else
+                                    map[i + 1][j] = 2;
+                            }
+                            else if (map[i][j] == 5) {
+                                map[i + 1][j] = 2;
+                                map[i][j] = 3;
+                            }
+                            if (monsterOnLastLocation) {
+                                map[i][j] = 3;
+                                mission.setMonsterOnLastLocation(false);
+                            }
+                            else {
+                                if (map[i][j] != 3 && map[i][j] != 5)
+                                    map[i][j] = 4;
+                            }
                             return;
                         }
                     }
@@ -344,10 +380,26 @@ public class MissionService {
         else if (dir.compareTo("Left") == 0) {
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
-                    if (map[i][j] == 2) {
+                    if (map[i][j] == 2 || map[i][j] == 5) {
                         if (j - 1 >= 0){
-                            map[i][j - 1] = 2;
-                            map[i][j] = 0;
+                            if (map[i][j] == 2) {
+                                if (map[i][j - 1] == 3)
+                                    map[i][j -1] = 5;
+                                else
+                                    map[i][j - 1] = 2;
+                            }
+                            else if (map[i][j] == 5) {
+                                map[i][j - 1] = 2;
+                                map[i][j] = 3;
+                            }
+                            if (monsterOnLastLocation) {
+                                map[i][j] = 3;
+                                mission.setMonsterOnLastLocation(false);
+                            }
+                            else {
+                                if (map[i][j] != 3 && map[i][j] != 5)
+                                    map[i][j] = 4;
+                            }
                             return;
                         }
                     }
@@ -357,10 +409,26 @@ public class MissionService {
         else if (dir.compareTo("Right") == 0) {
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
-                    if (map[i][j] == 2) {
+                    if (map[i][j] == 2 || map[i][j] == 5) {
                         if (j + 1 <= width){
-                            map[i][j + 1] = 2;
-                            map[i][j] = 0;
+                            if (map[i][j] == 2) {
+                                if (map[i][j + 1] == 3)
+                                    map[i][j + 1] = 5;
+                                else
+                                    map[i][j + 1] = 2;
+                            }
+                            else if (map[i][j] == 5) {
+                                map[i][j + 1] = 2;
+                                map[i][j] = 3;
+                            }
+                            if (monsterOnLastLocation) {
+                                map[i][j] = 3;
+                                mission.setMonsterOnLastLocation(false);
+                            }
+                            else {
+                                if (map[i][j] != 3 && map[i][j] != 5)
+                                    map[i][j] = 4;
+                            }
                             return;
                         }
                     }
@@ -413,45 +481,25 @@ public class MissionService {
         return false;
     }
 
-    public boolean heroIsOnBorder(String dir, int[][] map, int width) {
-        if (dir.compareTo("Up") == 0) {
+    public boolean heroIsOnBorder(int[][] map, int width) {
             for (int i = 0; i < width; i++) {
                 for (int j = 0; j < width; j++) {
                     if (map[i][j] == 2) {
                         if (i == 0) {
                             return true;
                         }
+                        else if (i == width - 1) {
+                            return true;
+                        }
+                        else if (j == 0) {
+                            return true;
+                        }
+                        else if (j == width - 1) {
+                            return true;
+                        }
                     }
                 }
             }
-        }
-        else if (dir.compareTo("Down") == 0) {
-            for (int i = 0; i < width; i++) {
-                for (int j = 0; j < width; j++) {
-                    if (map[i][j] == 2 && i == width - 1) {
-                        return true;
-                    }
-                }
-            }
-        }
-        else if (dir.compareTo("Left") == 0) {
-            for (int i = 0; i < width; i++) {
-                for (int j = 0; j < width; j++) {
-                    if (map[i][j] == 2 && j == 0) {
-                        return true;
-                    }
-                }
-            }
-        }
-        else if (dir.compareTo("Right") == 0) {
-            for (int i = 0; i < width; i++) {
-                for (int j = 0; j < width; j++) {
-                    if (map[i][j] == 2 && j == width - 1) {
-                        return true;
-                    }
-                }
-            }
-        }
         return false;
     }
 }

@@ -27,54 +27,52 @@
     </div>
 </header>
 
-<div class="menu">
-    <img src="medieval2.png"/>
+<div class="menu" style="background-image:url(medieval.png);">
     <h1>Members Area</h1>
-    <p th:text="${'Welcome '+user.name+'!'}"> </p>
+    <p th:text="${'Welcome '+user.name+'!'}"/>
 
-    <table>
+    <table align="center" style="background-color:rgba(100, 100, 100, 0.8); border-spacing: 30px; border-collapse: separate;">
         <tr>
             <td>
-    <div align="left">
-        <p>Authenticated User:</p>
-
-        <p th:text="${user.name}"></p>
-        <p th:text="${user.email}"></p>
-        <p th:text="${user.password}"></p>
-        <p th:text="${user.id}"></p>
-
-        </div>
-            </td>
-            <td>
                 <div align="left">
-                    <p>Heroes</p>
-        <table>
-            <tr>
-                <td>Type</td>
-                <td>Name</td>
-                <td>Id</td>
-                <td>Level</td>
-                <td>Health</td>
-                <td>Damage</td>
-                <td>Inventory(items)</td>
-            </tr>
-            <tr th:each="hero: ${user.heroes}">
-                <td th:text="${hero.heroType}"></td>
-                <td th:text="${hero.name}"></td>
-                <td th:text="${hero.id}"></td>
-                <td th:text="${hero.level}"></td>
-                <td th:text="${hero.health}"></td>
-                <td th:text="${hero.damage}"></td>
-                <td th:text="${hero.inventoryCount}"></td>
-                <td><a th:href="${'/startmission?id='+hero.id}">Play</a></td><td><a th:href="${'/edithero?id='+hero.id}">Edit</a></td>
-            </tr>
-        </table>
+                    <center><h4><p style="color:white;">Authenticated User</p></h4></center>
+                    <p class="bg-primary">User Name:</p>
+                    <p style="color:white;" th:text="${user.name}"></p>
+                    <p class="bg-primary">Email:</p>
+                    <p style="color:white;" th:text="${user.email}"></p>
                 </div>
             </td>
             <td>
                 <div align="left">
-                <p><a href="/createhero">Create Hero</a></p>
-               </div>
+                    <center><h2><p style="color:white;">Heroes</p></h2></center>
+                    <table class="table table-bordered">
+                        <tr>
+                            <td class="bg-primary">Type</td>
+                            <td class="bg-primary">Name</td>
+                            <td class="bg-primary">Id</td>
+                            <td class="bg-primary">Level</td>
+                            <td class="bg-primary">Health</td>
+                            <td class="bg-primary">Damage</td>
+                            <td class="bg-primary">Inventory(items)</td>
+                        </tr>
+                        <tr style="color:white;" th:each="hero: ${user.heroes}">
+                            <td th:text="${hero.heroType}"></td>
+                            <td th:text="${hero.name}"></td>
+                            <td th:text="${hero.id}"></td>
+                            <td th:text="${hero.level}"></td>
+                            <td th:text="${hero.health}"></td>
+                            <td th:text="${hero.damage}"></td>
+                            <td th:text="${hero.inventoryCount}"></td>
+                            <td><a th:href="${'/startmission?id='+hero.id}"><button type="button" class="btn btn-success">Play</button></a></td>
+                            <td><a th:href="${'/edithero?id='+hero.id}"><button type="button" class="btn btn-warning">Edit</button></a></td>
+                        </tr>
+                    </table>
+                </div>
+            </td>
+            <td style="vertical-align: middle">
+                <div class="centered">
+                    <p><a href="/createhero"><button type="button"  style="vertical-align: middle" class="btn btn-danger btn-lg">Create New Hero</button></a></p>
+                </div>
             </td>
         </tr>
         </table>

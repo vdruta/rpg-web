@@ -41,7 +41,7 @@ public class ArenaStartController {
         request.getSession().setAttribute("hero", hero);
         servletContext.setAttribute("hero1", hero);
 
-        Arena arena = new Arena("Lions Arena");
+        Arena arena = new Arena("Treasure Hunt Arena");
         arena.setHero1(hero);
         servletContext.setAttribute("arena", arena);
 

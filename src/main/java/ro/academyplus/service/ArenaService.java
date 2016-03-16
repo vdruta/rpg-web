@@ -41,7 +41,7 @@ public class ArenaService {
                     if (map[i][j] == h) {
                         if (i - 1 >= 0 && map[i - 1][j] != 1 && map[i - 1][j] != 2) {
                             map[i - 1][j] = h;
-                            map[i][j] = 0;
+                            map[i][j] = 4;
                             return;
                         }
                     }
@@ -54,7 +54,7 @@ public class ArenaService {
                     if (map[i][j] == h) {
                         if (i + 1 <= width && map[i + 1][j] != 1 && map[i + 1][j] != 2) {
                             map[i + 1][j] = h;
-                            map[i][j] = 0;
+                            map[i][j] = 4;
                             return;
                         }
                     }
@@ -67,7 +67,7 @@ public class ArenaService {
                     if (map[i][j] == h) {
                         if (j - 1 >= 0 && map[i][j - 1] != 1 && map[i][j - 1] != 2) {
                             map[i][j - 1] = h;
-                            map[i][j] = 0;
+                            map[i][j] = 4;
                             return;
                         }
                     }
@@ -80,7 +80,7 @@ public class ArenaService {
                     if (map[i][j] == h) {
                         if (j + 1 <= width && map[i][j + 1] != 1 && map[i][j + 1] != 2) {
                             map[i][j + 1] = h;
-                            map[i][j] = 0;
+                            map[i][j] = 4;
                             return;
                         }
                     }

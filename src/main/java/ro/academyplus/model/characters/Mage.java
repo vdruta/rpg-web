@@ -15,6 +15,8 @@ public class Mage extends Hero {
         health =1400;
         damage = 100;
         heroType = HeroType.MAGE;
+        baseDamage = 100;
+        baseHealth = 1400;
     }
     public Mage(){}
 }

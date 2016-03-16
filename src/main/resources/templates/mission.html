@@ -13,7 +13,7 @@
     <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'/>
 </head>
 
-<body>
+<body  background = "medieval.png">
 <header class="header-login-signup">
     <div class="header-limiter">
         <h1><a href="/">Bloody<span>Meadow</span></a></h1>
@@ -27,103 +27,134 @@
     </div>
 </header>
 
-<div class="menu" style="background-image:url(medieval.png);">
+<div>
 
-    <div class="form-group">
-        <p th:text="${hero.name}"/>
+    <div>
+     <center>  <p style="color:black; font-family:WildWest; font-size:200%;" th:text="${hero.name}"/></center>
         <div class="progress" style="width: 50%; margin-left:25%;">
             <div class="progress-bar" role="progressbar" th:attr="aria-valuenow=${hero.experience}" aria-valuemin="0"
                  aria-valuemax="100" th:style="'width: ' + ${hero.experience} + '%;'">
                 <span th:text="${hero.experience}"/>
             </div>
         </div>
-        <span>level: </span>
-        <span th:text="${hero.level}"/>
-        <span>health: </span>
-        <span th:text="${hero.health}"/>
-        <span>damage: </span>
-        <span th:text="${hero.damage}"/>
-        <span>inventory: </span>
-        <span th:each="i: ${hero.inventory}" th:text="${i.name}"/>
+
+        <center>
+            <div style="color:black; font-family:WildWest; text-shadow: 0 0 0px red; font-size:150%;">
+                <span><b>Level: </b></span>
+                <span style="color:blue; text-shadow: 0 0 0px black" th:text="${hero.level}"/>
+                <span><b>Health: </b></span>
+                <span style="color:blue; text-shadow: 0 0 0px black" th:text="${hero.health}"/>
+                <span><b>Damage: </b></span>
+                <span style="color:blue; text-shadow: 0 0 0px black" th:text="${hero.damage}"/>
+                <span><b>Inventory: </b></span>
+                <span style="color:blue; text-shadow: 0 0 0px black" th:each="i: ${hero.inventory}" th:text="${i.name}"/>
+            </div>
+
+        </center>
+        <center>
+
+        <div th:if="${win} == false and ${hero.death} == false">
+
+            <div th:if="${newartefact} == false">
+                <div th:if="${monster} == false">
+
+                    <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post">
+                        <div>
+                            <div class="form-group">
+                                <div th:if="${inventoryAlreadyContainsArtefact} == true">
+                                    <p><b>Inventory already contains this artefact type</b></p>
+                                </div>
+                                <select th:field="*{selectedAction}">
+                                    <option th:each="entry:*{actions}" th:value="${entry}" th:text="${entry}">Up</option>
+                                </select>
+                            </div>
+                            <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
+                        </div>
+                    </form>
+                </div>
+                <div th:if="${monster} == true">
+                    <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post" align="middle">
+                        <div>
+                            <div class="form-group">
+                                <select th:field="*{selectedFightAction}">
+                                    <option th:each="entry:*{fightActions}" th:value="${entry}" th:text="${entry}"><b>Fight</b></option>
+                                </select>
+                            </div>
+                            <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div th:if="${newartefact} == true">
+
+                <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post" align="middle">
+                    <div>
+                        <div class="form-group">
+                            <p>
+                            <span style="color:red">You Found: </span>
+                            <span style="color:red" th:text="${latestartefactname}"></span>
+                            </p>
+                            <select th:field="*{selectedgetOrDropAction}">
+                                <option th:each="entry:*{getOrDropActions}" th:value="${entry}" th:text="${entry}">Keep</option>
+                            </select>
+                        </div>
+                        <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        </center>
+        <center>
         <div th:if="${hero.death} == true">
-            <p>YOU LOST</p>
+            <p style="color:black; font-family:WildWest; font-size:150%;">YOU LOST</p>
+            <p><a href="/members" class="btn btn-danger"><b>Go Back</b></a></p>
+        </div>
+        </center>
+        <center>
+        <div th:if="${win} == true">
+            <p style="color:black; font-family:WildWest; font-size:150%;">You win</p>
             <p><a href="/members" class="btn btn-danger">Go Back</a></p>
         </div>
-    </div>
+        </center>
 
-    <div th:if="${win} == false and ${hero.death} == false">
 
-        <div th:if="${newartefact} == false">
-            <div th:if="${monster} == false">
+        <p>
 
-                <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post" allign="middle">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <div th:if="${inventoryAlreadyContainsArtefact} == true">
-                                <p>Inventory already contains this artefact type</p>
-                            </div>
-                            <select th:field="*{selectedAction}">
-                                <option th:each="entry:*{actions}" th:value="${entry}" th:text="${entry}">Up</option>
-                            </select>
-                        </div>
-                        <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
-                    </div>
-                </form>
-            </div>
-            <div th:if="${monster} == true">
-                <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post" allign="middle">
-                    <div class="col-lg-4">
-                        <div class="form-group">
-                            <select th:field="*{selectedFightAction}">
-                                <option th:each="entry:*{fightActions}" th:value="${entry}" th:text="${entry}">Fight</option>
-                            </select>
-                        </div>
-                        <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div th:if="${newartefact} == true">
+                <table align="center">
+                    <tr th:each="i: ${map}">
+                        <p th:each="j: ${i}" th:switch="${j}">
+                            <p th:case ="'1'">
+                                <div th:if="${hero.death} == false">
+                                    <td><img src="grass-un.jpg" style="height:70px;width:70px"/></td>
+                                </div>
+                                <div th:if="${hero.death} == true">
+                                    <td><img src="monster.gif" style="height:70px;width:70px"/></td>
+                                </div>
+                            </p>
+                          <p th:case ="'2'"><td><img src="warrior-4.gif" style="height:70px;width:70px"></img></td></p>
+                          <p th:case ="'3'"><td><img src="dead-monster2.jpg" style="height:70px;width:70px"></img></td></p>
+                          <p th:case ="'4'"><td><img src="grass-de.jpg" style="height:70px;width:70px"></img></td></p>
+                          <p th:case ="'5'"><td><img src="warrior-over-dead-monster.gif" style="height:70px;width:70px"></img></td></p>
+                          <p th:case ="*"><td><img src="grass-un.jpg" style="height:70px;width:70px"></img></td></p>
+                        </p>
+                     </tr>
+                 </table>
 
-            <form action="#" th:action="@{/mission}" th:object="${missiondto}" method="post" allign="middle">
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <p>You Found:</p>
-                        <p th:text="${latestartefactname}"></p>
-                        <select th:field="*{selectedgetOrDropAction}">
-                            <option th:each="entry:*{getOrDropActions}" th:value="${entry}" th:text="${entry}">Keep</option>
-                        </select>
-                    </div>
-                    <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
-                </div>
-            </form>
-        </div>
+        </p>
+
+
+
     </div>
 
 
 
-    <div th:if="${win} == true">
-        <p>You win</p>
-        <p><a href="/members" class="btn btn-danger">Go Back</a></p>
-    </div>
+
+
+
 </div>
 
 
-<p>
-    <center>
-        <table>
-            <tr th:each="i: ${map}">
-                <p th:each="j: ${i}" th:switch="${j}">
-                <p th:case ="'2'"><td><img src="warrior-4.gif" style="height:70px;width:70px"></img></td></p>
-                <p th:case ="'3'"><td><img src="dead-monster2.jpg" style="height:70px;width:70px"></img></td></p>
-                <p th:case ="'4'"><td><img src="grass-de.jpg" style="height:70px;width:70px"></img></td></p>
-                <p th:case ="'5'"><td><img src="warrior-over-dead-monster.jpg" style="height:70px;width:70px"></img></td></p>
-                <p th:case ="*"><td><img src="grass-un.jpg" style="height:70px;width:70px"></img></td></p>
-                </p>
-            </tr>
-        </table>
-    </center>
-</p>
+
 
 
 </body>

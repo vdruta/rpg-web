@@ -10,6 +10,7 @@ import ro.academyplus.model.characters.Villain;
 import ro.academyplus.repository.HeroRepository;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -174,15 +175,82 @@ public class MissionService {
         }
         else if (missionDTO.getSelectedgetOrDropAction().compareTo("Keep") == 0) {
             mission.setNewArtefact(false);
+            compareArtefactStatsAndDeleteWorst(mission, hero);
             try {
                 hero.addArtefact(mission.getLatestArtefact());
-            } catch (Exception e) { // TODO: 2016-03-13 Message to player: You already have one artefact type: sword, axe, bow, etc
+            } catch (Exception e) {
                 mission.setInventoryAlreadyContainsArtefact(true);
             }
             if (heroIsOnBorder(mission.getMap(), mission.getWidth())) {
                 mission.setWin(true);
                 giveHeroExperience(hero, 30); //TODO reset hero to base level
                 heroRepository.saveAndFlush(hero);
+            }
+        }
+    }
+
+    public void compareArtefactStatsAndDeleteWorst(Mission mission, Hero hero) {
+        if (mission.getLatestArtefact() instanceof Armor) {
+            List<Artefact> inventory = hero.getInventory();
+            for (Iterator<Artefact> it = inventory.iterator(); it.hasNext();){
+                Artefact a = it.next();
+                if (a instanceof Armor) {
+                    if (((Armor) mission.getLatestArtefact()).getHealth() > ((Armor) a).getHealth()) {
+                        System.out.println(((Armor) mission.getLatestArtefact()).getHealth());
+                        System.out.println(((Armor) a).getHealth());
+                        it.remove();
+                    }
+                }
+            }
+        }
+        if (mission.getLatestArtefact() instanceof Axe) {
+            List<Artefact> inventory = hero.getInventory();
+            for (Iterator<Artefact> it = inventory.iterator(); it.hasNext();){
+                Artefact a = it.next();
+                if (a instanceof Axe) {
+                    if (((Axe) mission.getLatestArtefact()).getDamage() > ((Axe) a).getDamage())
+                        it.remove();
+                }
+            }
+        }
+        if (mission.getLatestArtefact() instanceof Bow) {
+            List<Artefact> inventory = hero.getInventory();
+            for (Iterator<Artefact> it = inventory.iterator(); it.hasNext();){
+                Artefact a = it.next();
+                if (a instanceof Bow) {
+                    if (((Bow) mission.getLatestArtefact()).getDamage() > ((Bow) a).getDamage())
+                        it.remove();
+                }
+            }
+        }
+        if (mission.getLatestArtefact() instanceof Helmet) {
+            List<Artefact> inventory = hero.getInventory();
+            for (Iterator<Artefact> it = inventory.iterator(); it.hasNext();){
+                Artefact a = it.next();
+                if (a instanceof Helmet) {
+                    if (((Helmet) mission.getLatestArtefact()).getHealth() > ((Helmet) a).getHealth())
+                        it.remove();
+                }
+            }
+        }
+        if (mission.getLatestArtefact() instanceof Staff) {
+            List<Artefact> inventory = hero.getInventory();
+            for (Iterator<Artefact> it = inventory.iterator(); it.hasNext();){
+                Artefact a = it.next();
+                if (a instanceof Staff) {
+                    if (((Staff) mission.getLatestArtefact()).getDamage() > ((Staff) a).getDamage())
+                        it.remove();
+                }
+            }
+        }
+        if (mission.getLatestArtefact() instanceof Sword) {
+            List<Artefact> inventory = hero.getInventory();
+            for (Iterator<Artefact> it = inventory.iterator(); it.hasNext();){
+                Artefact a = it.next();
+                if (a instanceof Sword) {
+                    if (((Sword) mission.getLatestArtefact()).getDamage() > ((Sword) a).getDamage())
+                        it.remove();
+                }
             }
         }
     }
@@ -209,6 +277,7 @@ public class MissionService {
                                     giveHeroExperience(hero, 10);
                                     mission.setNewArtefact(true);
                                     mission.setLatestArtefact(getNewRandomArtefact(mission.getWidth()));
+                                    map[i - 1][j] = 3;
                                 }
                             }
                         }
@@ -236,6 +305,7 @@ public class MissionService {
                                     giveHeroExperience(hero, 10);
                                     mission.setNewArtefact(true);
                                     mission.setLatestArtefact(getNewRandomArtefact(mission.getWidth()));
+                                    map[i + 1][j] = 3;
                                 }
                             }
 
@@ -263,6 +333,7 @@ public class MissionService {
                                     giveHeroExperience(hero, 10);
                                     mission.setNewArtefact(true);
                                     mission.setLatestArtefact(getNewRandomArtefact(mission.getWidth()));
+                                    map[i][j - 1] = 3;
                                 }
                             }
                         }
@@ -289,6 +360,7 @@ public class MissionService {
                                     giveHeroExperience(hero, 10);
                                     mission.setNewArtefact(true);
                                     mission.setLatestArtefact(getNewRandomArtefact(mission.getWidth()));
+                                    map[i][j + 1] = 3;
                                 }
                             }
                         }
@@ -313,6 +385,7 @@ public class MissionService {
             return new Staff("Staff"+i, i);
         else if (i % 6 == 5)
             return new Sword("Sword"+i, i);
+
         return null;
     }
 
@@ -331,7 +404,10 @@ public class MissionService {
                                     map[i - 1][j] = 2;
                             }
                             else if (map[i][j] == 5) {
-                                map[i - 1][j] = 2;
+                                if (map[i - 1][j] == 3)
+                                    map[i - 1][j] = 5;
+                                else
+                                    map[i - 1][j] = 2;
                                 map[i][j] = 3;
                             }
                             if (monsterOnLastLocation) {
@@ -360,7 +436,10 @@ public class MissionService {
                                     map[i + 1][j] = 2;
                             }
                             else if (map[i][j] == 5) {
-                                map[i + 1][j] = 2;
+                                if (map[i + 1][j] == 3)
+                                    map[i + 1][j] = 5;
+                                else
+                                    map[i + 1][j] = 2;
                                 map[i][j] = 3;
                             }
                             if (monsterOnLastLocation) {
@@ -389,7 +468,10 @@ public class MissionService {
                                     map[i][j - 1] = 2;
                             }
                             else if (map[i][j] == 5) {
-                                map[i][j - 1] = 2;
+                                if (map[i][j - 1] == 3)
+                                    map[i][j - 1] = 5;
+                                else
+                                    map[i][j - 1] = 2;
                                 map[i][j] = 3;
                             }
                             if (monsterOnLastLocation) {
@@ -418,7 +500,10 @@ public class MissionService {
                                     map[i][j + 1] = 2;
                             }
                             else if (map[i][j] == 5) {
-                                map[i][j + 1] = 2;
+                                if (map[i][j + 1] == 3)
+                                    map[i][j + 1] = 5;
+                                else
+                                    map[i][j + 1] = 2;
                                 map[i][j] = 3;
                             }
                             if (monsterOnLastLocation) {

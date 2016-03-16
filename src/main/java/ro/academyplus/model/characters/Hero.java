@@ -28,16 +28,8 @@ public class Hero implements ManageCharacter {
     protected Date date;
     protected int experience;
     protected boolean death;
-    protected int orcBaseDamage = 80;
-    protected int orcBaseHealth = 1800;
-    protected int mageBaseDamage = 100;
-    protected int mageBaseHealth = 1400;
-    protected int knightBaseDamage = 70;
-    protected int knightBaseHealth = 2000;
-    protected int elfBaseHealth = 1600;
-    protected int elfBaseDamage = 90;
-
-
+    protected int baseHealth;
+    protected int baseDamage;
 
     public Hero(String name) {
         this.name = name;
@@ -95,28 +87,28 @@ public class Hero implements ManageCharacter {
         level++;
         inventorySize++;
         if (this instanceof Elf) {
-            health = elfBaseHealth + elfBaseHealth * level / 11;
-            damage = elfBaseDamage + elfBaseDamage * level / 12;
+            health = this.baseHealth + this.baseHealth * level / 6;
+            damage = this.baseDamage + this.baseDamage * level / 12;
         }
         if (this instanceof Knight) {
-            health =  getKnightBaseHealth() + getKnightBaseHealth() * level / 15;
-            damage = getKnightBaseDamage() + getKnightBaseDamage() * level / 16;
+            health = this.baseHealth + this.baseHealth * level / 7;
+            damage = this.baseDamage + this.baseDamage * level / 16;
         }
         if (this instanceof Mage) {
-            health = getMageBaseHealth() + getMageBaseHealth() * level / 9;
-            damage = getMageBaseDamage() + getMageBaseDamage() * level / 10;
+            health = this.baseHealth + this.baseHealth * level / 4;
+            damage = this.baseDamage + this.baseDamage * level / 10;
         }
         if (this instanceof Orc) {
-            health = getOrcBaseHealth() + getOrcBaseHealth() * level / 13;
-            damage = getOrcBaseDamage() + getOrcBaseDamage() * level / 14;
+            health = this.baseHealth + this.baseHealth * level / 7;
+            damage = this.baseDamage + this.baseDamage * level / 14;
         }
     }
 
     public void addArtefact (Artefact artefact) throws Exception {
-        inventoryCount++;
+        /*inventoryCount++;
         if (inventoryCount > inventorySize) {
             throw new Exception("Inventory is full. A hero can keep in the inventory max " + inventorySize + " artefacts");
-        }
+        }*/
         if (inventoryAlreadyContainsArtefactType(artefact)) {
             throw new Exception("Inventory already contains this artefact type");
         }
@@ -253,67 +245,19 @@ public class Hero implements ManageCharacter {
         this.heroType = heroType;
     }
 
-    public int getOrcBaseDamage() {
-        return orcBaseDamage;
+    public void setBaseDamage(int baseDamage) {
+        this.baseDamage = baseDamage;
     }
 
-    public void setOrcBaseDamage(int orcBaseDamage) {
-        this.orcBaseDamage = orcBaseDamage;
+    public int getBaseDamage() {
+        return baseDamage;
     }
 
-    public int getOrcBaseHealth() {
-        return orcBaseHealth;
+    public void setBaseHealth(int baseHealth) {
+        this.baseHealth = baseHealth;
     }
 
-    public void setOrcBaseHealth(int orcBaseHealth) {
-        this.orcBaseHealth = orcBaseHealth;
-    }
-
-    public int getMageBaseDamage() {
-        return mageBaseDamage;
-    }
-
-    public void setMageBaseDamage(int mageBaseDamage) {
-        this.mageBaseDamage = mageBaseDamage;
-    }
-
-    public int getMageBaseHealth() {
-        return mageBaseHealth;
-    }
-
-    public void setMageBaseHealth(int mageBaseHealth) {
-        this.mageBaseHealth = mageBaseHealth;
-    }
-
-    public int getKnightBaseDamage() {
-        return knightBaseDamage;
-    }
-
-    public void setKnightBaseDamage(int knightBaseDamage) {
-        this.knightBaseDamage = knightBaseDamage;
-    }
-
-    public int getKnightBaseHealth() {
-        return knightBaseHealth;
-    }
-
-    public void setKnightBaseHealth(int knightBaseHealth) {
-        this.knightBaseHealth = knightBaseHealth;
-    }
-
-    public int getElfBaseHealth() {
-        return elfBaseHealth;
-    }
-
-    public void setElfBaseHealth(int elfBaseHealth) {
-        this.elfBaseHealth = elfBaseHealth;
-    }
-
-    public int getElfBaseDamage() {
-        return elfBaseDamage;
-    }
-
-    public void setElfBaseDamage(int elfBaseDamage) {
-        this.elfBaseDamage = elfBaseDamage;
+    public int getBaseHealth() {
+        return baseHealth;
     }
 }

@@ -14,6 +14,9 @@ public class Elf extends Hero{
         health = 1600;
         damage = 90;
         heroType = heroType.ELF;
+        baseHealth = 1600;
+        baseDamage = 90;
+
     }
 
     public Elf(){}

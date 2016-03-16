@@ -15,6 +15,8 @@ public class Knight extends Hero {
         health = 2000;
         damage = 70;
         heroType = HeroType.KNIGHT;
+        baseDamage = 70;
+        baseHealth = 2000;
     }
     public Knight(){
     }

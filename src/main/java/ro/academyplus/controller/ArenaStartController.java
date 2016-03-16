@@ -37,7 +37,6 @@ public class ArenaStartController {
 
         Arena arena = new Arena("Lions Arena");
         arena.setHero1(hero);
-        request.getSession().setAttribute("arena", arena);
         servletContext.setAttribute("arena", arena);
 
         return "redirect:arenajoin?id="+Long.parseLong(id);

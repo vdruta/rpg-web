@@ -15,6 +15,9 @@ public class Orc extends Hero {
         health = 1800;
         damage = 80;
         heroType = HeroType.ORC;
+        baseDamage = 80;
+        baseHealth = 1800;
+
     }
     public Orc(){}
 }

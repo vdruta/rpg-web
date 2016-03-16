@@ -2,9 +2,14 @@ package ro.academyplus.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import ro.academyplus.dto.ArenaJoinDTO;
+import ro.academyplus.dto.UserDTO;
 import ro.academyplus.model.Arena;
 import ro.academyplus.model.Mission;
 import ro.academyplus.model.characters.Hero;
@@ -14,6 +19,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 
 /**
@@ -39,14 +45,32 @@ public class ArenaStartController {
         arena.setHero1(hero);
         servletContext.setAttribute("arena", arena);
 
-        return "redirect:arenajoin?id="+Long.parseLong(id);
+        return "redirect:arenaconfig?id="+Long.parseLong(id);
     }
 
-    @RequestMapping(value = "/arenastart2", method = RequestMethod.GET)
-    public String init2Arena(@RequestParam(value = "id", required = false, defaultValue = "0") String id) {
+    @RequestMapping(value = "/arenajoin", method = RequestMethod.GET)
+    public String createJoinForm(@RequestParam(value = "id", required = false, defaultValue = "0") String id,
+                                 Model model) {
 
         Hero hero = heroRepository.findOne(Long.parseLong(id));
         request.getSession().setAttribute("hero", hero);
-        return "redirect:arenajoin?id="+28;
+
+        ArenaJoinDTO arenaJoinDTO = new ArenaJoinDTO();
+        arenaJoinDTO.setJoinId("");
+        model.addAttribute("join", arenaJoinDTO);
+        return "arenajoin";
+        //return "redirect:arenaconfig?id="+28;
+    }
+
+    @RequestMapping(value = "/arenajoin", method = RequestMethod.POST)
+    public String joinArena(@ModelAttribute(value = "join") @Valid ArenaJoinDTO arenaJoinDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "arenajoin";
+        }
+
+        //Hero hero = (Hero) request.getSession().getAttribute("hero");
+        //request.getSession().setAttribute("hero", hero);
+
+        return "redirect:arenaconfig?id="+arenaJoinDTO.getJoinId();
     }
 }

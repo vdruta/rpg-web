@@ -25,7 +25,7 @@ import java.util.List;
  * Created by MM on 2016-03-09.
  */
 @Controller
-public class ArenaJoinController {
+public class ArenaConfigController {
     @Autowired
     HttpServletRequest request;
     @Autowired
@@ -33,8 +33,8 @@ public class ArenaJoinController {
     @Autowired
     HeroRepository heroRepository;
 
-    @RequestMapping(value = "/arenajoin", method = RequestMethod.GET)
-    public String joinArena(@RequestParam(value = "id", required = false, defaultValue = "0") String id){
+    @RequestMapping(value = "/arenaconfig", method = RequestMethod.GET)
+    public String configArena(@RequestParam(value = "id", required = false, defaultValue = "0") String id){
         Hero hero = (Hero) request.getSession().getAttribute("hero");
         Hero heroFromId = heroRepository.findOne(Long.parseLong(id));
         if (heroFromId.equals(hero)) {

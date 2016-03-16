@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Arena Join</title>
+
+    <link rel="stylesheet" href="demo.css" />
+    <link rel="stylesheet" href="header-login-signup.css" />
+    <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css' />
+</head>
+
+<body style="background-image:url(medieval.png);">
+<header class="header-login-signup">
+    <div class="header-limiter">
+        <h1><a href="/">Bloody<span>Meadow</span></a></h1>
+        <nav>
+            <a href="/">Home</a>
+            <a href="#">Blog</a>
+
+
+        </nav>
+        <ul>
+
+            <li><a href="/login">Log out</a></li>
+        </ul>
+    </div>
+</header>
+<h1 class="col-md-offset-4 col-md-5" style="color:white; text-align: center;">Join Arena</h1>
+<div class="col-md-offset-4 col-md-5" style="background-color:rgba(100, 100, 100, 0.8); text-align: center;">
+    <form action="#" th:action="@{/arenajoin}" th:object="${join}" method="post" allign="middle">
+        <div class="col-lg-4; alli">
+            <div class="form-group">
+                <label style="color:white;">Arena Id</label>
+                <input class="form-control" th:field="*{joinId}"/>
+                <label th:if="${#fields.hasErrors('joinId')}" th:errors="*{joinId}">Join Id Error</label>
+            </div>
+
+            <button type="submit" value="Submit" class="btn btn-danger">Submit</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>

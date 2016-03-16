@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
 <head>
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -13,8 +15,10 @@
     <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'/>
 </head>
 
-<body>
+<body style="background-image:url(medieval.png);">
 <header class="header-login-signup">
+    <meta http-equiv="refresh" content="5"/>
+
     <div class="header-limiter">
         <h1><a href="/">Bloody<span>Meadow</span></a></h1>
         <nav>
@@ -27,10 +31,53 @@
     </div>
 </header>
 
-<div class="menu" style="background-image:url(medieval.png);">
-    <p th:text="${hero1.name}"/>
-    <p th:text="${hero2.name}"/>
 
+<div>
+    <center>
+         <p style="color:red; font-family:WildWest; font-size:150%;" th:text="${'Hero '+hero1.name+' joined '+arena.name+'!'}"/>
+         <p style="color:blue; font-family:WildWest; font-size:150%;" th:text="${'Hero '+hero2.name+' joined '+arena.name+'!'}"/>
+    </center>
+    <!-- <div th:if="${tourn1} == true"> -->
+    <table align="center" style="background-color:rgba(100, 100, 100, 0.8); border-spacing: 30px; border-collapse: separate;"><tr><td>
+        <form action="#" th:action="@{/arena}" th:object="${arenadto}" method="post">
+            <div>
+                <div>
+                    <select th:field="*{selectedAction}">
+                        <option th:each="entry:*{actions}" th:value="${entry}" th:text="${entry}">Up</option>
+                    </select>
+                </div>
+                <button type="submit" value="Submit" class="btn btn-danger"><p th:text="${hero1.name+' Play'}"/></button>
+            </div>
+        </form>
+       </td>  <!-- </div> -->
+
+        <td>
+  <!--  <div th:if="${tourn2} == true"> -->
+    <form action="#" th:action="@{/arena}" th:object="${arenadto}" method="post">
+        <div>
+            <div>
+                <select th:field="*{selectedAction2}">
+                    <option th:each="entry:*{actions2}" th:value="${entry}" th:text="${entry}">Up</option>
+                </select>
+            </div>
+            <button type="submit" value="Submit" class="btn btn-primary"><p th:text="${hero2.name+' Play'}"/></button>
+        </div>
+    </form>
+     <!-- </div> -->
+        </td></tr></table>
+
+
+    <p>
+        <table align="center">
+            <tr th:each="i: ${map}">
+                <p th:each="j: ${i}" th:switch="${j}">
+                <p th:case ="'1'"><td><img src="warrior-4b.gif" style="height:70px;width:70px"></img></td></p>
+                <p th:case ="'2'"><td><img src="warrior-4.gif" style="height:70px;width:70px"></img></td></p>
+                <p th:case ="*"><td><img src="grass-un.jpg" style="height:70px;width:70px"></img></td></p>
+                </p>
+             </tr>
+        </table>
+    </p>
 </div>
 
 </body>

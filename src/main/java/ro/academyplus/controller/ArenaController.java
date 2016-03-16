@@ -8,10 +8,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import ro.academyplus.dto.ArenaDTO;
 import ro.academyplus.dto.MissionDTO;
 import ro.academyplus.model.Arena;
 import ro.academyplus.model.Mission;
 import ro.academyplus.model.characters.Hero;
+import ro.academyplus.service.ArenaService;
 import ro.academyplus.service.MissionService;
 
 import javax.servlet.ServletContext;
@@ -25,8 +27,8 @@ import java.util.List;
  */
 @Controller
 public class ArenaController {
-    //@Autowired
-    //ArenaService arenaService;
+    @Autowired
+    ArenaService arenaService;
     @Autowired
     HttpServletRequest request;
     @Autowired
@@ -38,35 +40,49 @@ public class ArenaController {
         Arena arena = (Arena) servletContext.getAttribute("arena");
         model.addAttribute("hero1", arena.getHero1());
         model.addAttribute("hero2", arena.getHero2());
+        model.addAttribute("arena", arena);
+        model.addAttribute("map", arena.getMap());
 
-    /*    MissionDTO missionDTO = new MissionDTO();
+        ArenaDTO arenaDTO = new ArenaDTO();
         List<String> actions = new ArrayList<String>();
         actions.add("Up");
         actions.add("Down");
         actions.add("Left");
         actions.add("Right");
-        missionDTO.setActions(actions);
-        List<String> fightActions = new ArrayList<String>();
-        fightActions.add("Fight");
-        fightActions.add("Run");
-        missionDTO.setFightActions(fightActions);
-        List<String> keepOrDropActions = new ArrayList<String>();
-        keepOrDropActions.add("Keep");
-        keepOrDropActions.add("Drop");
-        missionDTO.setGetOrDropActions(keepOrDropActions);
-        model.addAttribute("missiondto", missionDTO); */
+        arenaDTO.setActions(actions);
+        List<String> actions2 = new ArrayList<String>();
+        actions2.add("Up");
+        actions2.add("Down");
+        actions2.add("Left");
+        actions2.add("Right");
+        arenaDTO.setActions2(actions2);
+        model.addAttribute("arenadto", arenaDTO);
+
+        model.addAttribute("tourn1", arena.isTourn1());
+        model.addAttribute("tourn2", arena.isTourn2());
         return "arena";
-        //return "arena?id="+Long.parseLong(id);
     }
-/*
+
     @RequestMapping(value = "/arena", method = RequestMethod.POST)
-    public String updateMissionPage(@ModelAttribute(value = "arenadto") @Valid ArenaDTO arenaDTO,
+    public String updateArena(@ModelAttribute(value = "arenadto") @Valid ArenaDTO arenaDTO,
                                     BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            System.out.println("error");
             return "members";
         }
-        arenaService.playMission(missionDTO);
-        return "redirect:mission";
-    }*/
+
+
+        Hero heroSession = (Hero) request.getSession().getAttribute("hero");
+        Arena arena = (Arena) servletContext.getAttribute("arena");
+        if (heroSession.equals(arena.getHero1())) {
+            arenaService.processArena1(arenaDTO);
+        }
+        else {
+            arenaService.processArena2(arenaDTO);
+        }
+
+
+        //arenaService.processArena(arenaDTO);
+
+        return "redirect:arena";
+    }
 }

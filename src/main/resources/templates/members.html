@@ -11,7 +11,7 @@
     <title>RPG Game - Members Area</title>
 </head>
 
-<body>
+<body  style="background-image:url(medieval.png);">
 <header class="header-login-signup">
     <div class="header-limiter">
         <h1><a href="/">Bloody<span>Meadow</span></a></h1>
@@ -27,7 +27,7 @@
     </div>
 </header>
 
-<div class="menu" style="background-image:url(medieval.png);">
+<div class="menu">
     <h1>Members Area</h1>
     <h2 th:text="${'Welcome '+user.name+'!'}"/>
 
@@ -65,6 +65,8 @@
                             <td th:text="${hero.inventoryCount}"></td>
                             <td><a th:href="${'/startmission?id='+hero.id}"><button type="button" class="btn btn-success">Play</button></a></td>
                             <td><a th:href="${'/edithero?id='+hero.id}"><button type="button" class="btn btn-warning">Edit</button></a></td>
+                            <td><a th:href="${'/arenastart?id='+hero.id}"><button type="button" class="btn btn-success">Start</button></a></td>
+                            <td><a th:href="${'/arenajoin?id='+hero.id}"><button type="button" class="btn btn-success">Join</button></a></td>
                         </tr>
                     </table>
                 </div>

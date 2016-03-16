@@ -33,7 +33,6 @@ class UserController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String sendUser(@ModelAttribute(value = "user") @Valid UserDTO user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            System.out.println("Create error");
             return "create";
         }
         User userModel = userService.registerUser(user);
